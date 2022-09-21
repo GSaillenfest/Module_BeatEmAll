@@ -5,9 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Rigidbody2D playerRb;
-    [SerializeField] Rigidbody2D shadowRb;
-    //[SerializeField] Rigidbody2D jumpPlayerRb;
     [SerializeField] Transform graphics;
+    [SerializeField] Transform playerParent;
     [SerializeField] public float speedForce = 30f;
     [SerializeField] Animator animator;
     [SerializeField] float jumpForce;
@@ -19,7 +18,7 @@ public class PlayerController : MonoBehaviour
     float horizontalInput;
     float verticalInput;
     bool isWalking = false;
-    bool isJumping = false;
+    public bool isJumping = false;
     bool doJump = false;
 
 
@@ -56,51 +55,17 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        playerRb.AddForce(speedForce * direction, ForceMode2D.Force);
-        shadowRb.AddForce(speedForce * direction, ForceMode2D.Force);
+        playerParent.Translate(new Vector2(direction.x, direction.y * vertInputMultiplier) * speedForce);
         if (!isJumping)
         {
-            playerRb.velocity = new Vector2(
-                Mathf.Clamp(playerRb.velocity.x, -maxVelocity / 2, maxVelocity / 2),
-                Mathf.Clamp(playerRb.velocity.y, -maxVelocity / 2 * vertInputMultiplier, maxVelocity / 2 * vertInputMultiplier)
-                );
-            shadowRb.velocity = new Vector2(
-                Mathf.Clamp(shadowRb.velocity.x, -maxVelocity / 2, maxVelocity / 2),
-                Mathf.Clamp(shadowRb.velocity.y, -maxVelocity / 2 * vertInputMultiplier, maxVelocity / 2 * vertInputMultiplier)
-                );
 
         }
         else
         {
-            playerRb.velocity = new Vector2(
-            Mathf.Clamp(playerRb.velocity.x, -maxVelocity / 2, maxVelocity / 2),
-            Mathf.Clamp(playerRb.velocity.y, -maxVelocity / 2 * vertInputMultiplier, maxVelocity / 2 * vertInputMultiplier + 1f)
-            );
-            shadowRb.velocity = new Vector2(
-            Mathf.Clamp(shadowRb.velocity.x, -maxVelocity / 2, maxVelocity / 2),
-            Mathf.Clamp(shadowRb.velocity.y, -maxVelocity / 2 * vertInputMultiplier, maxVelocity / 2 * vertInputMultiplier)
-            );
+            
         }
 
         Jump();
-        ChangeDrag();
-    }
-
-    private void ChangeDrag()
-    {
-        if (!isJumping)
-        {
-            if (playerRb.velocity.magnitude < minVelocity && direction.magnitude == 0f)
-            {
-                playerRb.drag = 50f;
-                shadowRb.drag = 50f;
-            }
-            else
-            {
-                playerRb.drag = 3f;
-                shadowRb.drag = 3f;
-            }
-        }
     }
 
     private void Jump()
@@ -110,7 +75,7 @@ public class PlayerController : MonoBehaviour
 
             animator.SetTrigger("Jump");
             animator.SetBool("isJumping", true);
-            playerRb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            playerRb.AddRelativeForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             playerRb.gravityScale = 0.5f;
             doJump = false;
         }
@@ -120,7 +85,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("PlayerGroundCollider"))
         {
-            playerRb.gravityScale = 0.5f;
+            playerRb.gravityScale = 0f;
             isJumping = false;
         }
     }
