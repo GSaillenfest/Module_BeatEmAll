@@ -19,7 +19,7 @@ public class JumpBehaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.GetComponentInChildren<PlayerController>().SetGravityToZero();
+        animator.gameObject.GetComponent<GravityController>().SetGravity(0f);
         animator.SetBool("isJumping", false);
     }
 

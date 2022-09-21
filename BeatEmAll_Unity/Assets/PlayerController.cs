@@ -10,8 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] float maxVelocity = 3f;
     [SerializeField] float minVelocity = 2.5f;
-    [SerializeField] float verticalInputFactor = 0.7f;
-    [SerializeField] float gravityMultiplier = 10f;
+    [SerializeField] float vertInputMultiplier = 0.7f;
 
     Vector2 direction;
     float horizontalInput;
@@ -39,7 +38,16 @@ public class PlayerController : MonoBehaviour
         isJumping = animator.GetBool("isJumping");
 
         animator.SetBool("isWalking", isWalking);
-        if (Input.GetButtonDown("Jump")) doJump = true;
+        if (Input.GetButtonDown("Jump") && !isJumping) doJump = true;
+
+        if (horizontalInput < 0)
+        {
+            transform.parent.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (horizontalInput > 0)
+        {
+            transform.parent.localScale = new Vector3(1, 1, 1);
+        }
 
     }
 
@@ -48,32 +56,42 @@ public class PlayerController : MonoBehaviour
         playerRb.AddForce(speedForce * direction, ForceMode2D.Force);
         if (!isJumping)
         {
-            playerRb.velocity = Vector2.ClampMagnitude(new Vector2(playerRb.velocity.x, playerRb.velocity.y*verticalInputFactor), maxVelocity);
+            playerRb.velocity = new Vector2(
+                Mathf.Clamp(playerRb.velocity.x, -maxVelocity / 2, maxVelocity / 2),
+                Mathf.Clamp(playerRb.velocity.y, -maxVelocity / 2 * vertInputMultiplier, maxVelocity / 2 * vertInputMultiplier)
+                );
         }
-        //else playerRb.velocity = Vector2.ClampMagnitude(playerRb.velocity, maxVelocity + 2f);
-        // TODO : change clamping behaviour when jumping
+        else playerRb.velocity = new Vector2(
+            Mathf.Clamp(playerRb.velocity.x, -maxVelocity / 2, maxVelocity / 2),
+            Mathf.Clamp(playerRb.velocity.y, -maxVelocity / 2 * vertInputMultiplier, maxVelocity / 2 * vertInputMultiplier + 1f)
+            );
 
+        Jumping();
+        ChangeDrag();
+    }
 
+    private void ChangeDrag()
+    {
+        if (!isJumping)
+        {
+            if (playerRb.velocity.magnitude < minVelocity && direction.magnitude == 0f)
+            {
+                playerRb.drag = 50f;
+            }
+            else playerRb.drag = 3f;
+        }
+    }
 
+    private void Jumping()
+    {
         if (doJump)
         {
             animator.SetTrigger("Jump");
             animator.SetBool("isJumping", true);
             playerRb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-            playerRb.gravityScale = gravityMultiplier;
             doJump = false;
         }
-
-        if (playerRb.velocity.magnitude < minVelocity && direction.magnitude == 0f)
-        {
-            playerRb.drag = 50f;
-        }
-        else playerRb.drag = 3f;
     }
 
-    public void SetGravityToZero()
-    {
-        playerRb.gravityScale = 0f;
-    }
 }
 
