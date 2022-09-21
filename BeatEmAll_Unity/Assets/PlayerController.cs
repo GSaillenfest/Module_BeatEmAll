@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     bool isWalking = false;
     public bool isJumping = false;
     bool doJump = false;
+    public bool contact = false;
 
 
 
@@ -55,15 +56,12 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        playerParent.Translate(new Vector2(direction.x, direction.y * vertInputMultiplier) * speedForce);
-        if (!isJumping)
+        //seems to be unrelevant
+        if (!contact || verticalInput !=0)
         {
-
+            playerParent.Translate(new Vector2(direction.x, direction.y * vertInputMultiplier) * speedForce);
         }
-        else
-        {
-            
-        }
+        
 
         Jump();
     }
@@ -81,12 +79,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("PlayerGroundCollider"))
         {
             playerRb.gravityScale = 0f;
             isJumping = false;
+            Debug.Log("Ground");
+        }
+        if (collision.gameObject.CompareTag("Props"))
+        {
+            contact = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Props"))
+        {
+            contact = false;
         }
     }
 
