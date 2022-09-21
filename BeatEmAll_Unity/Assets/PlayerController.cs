@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxVelocity = 3f;
     [SerializeField] float minVelocity = 2.5f;
     [SerializeField] float verticalInputFactor = 0.7f;
+    [SerializeField] float gravityMultiplier = 10f;
 
     Vector2 direction;
     float horizontalInput;
@@ -47,16 +48,19 @@ public class PlayerController : MonoBehaviour
         playerRb.AddForce(speedForce * direction, ForceMode2D.Force);
         if (!isJumping)
         {
-            playerRb.velocity = Vector2.ClampMagnitude(playerRb.velocity, maxVelocity);
+            playerRb.velocity = Vector2.ClampMagnitude(new Vector2(playerRb.velocity.x, playerRb.velocity.y*verticalInputFactor), maxVelocity);
         }
+        //else playerRb.velocity = Vector2.ClampMagnitude(playerRb.velocity, maxVelocity + 2f);
         // TODO : change clamping behaviour when jumping
-        
+
+
+
         if (doJump)
         {
             animator.SetTrigger("Jump");
             animator.SetBool("isJumping", true);
             playerRb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-            playerRb.gravityScale = 10f;
+            playerRb.gravityScale = gravityMultiplier;
             doJump = false;
         }
 

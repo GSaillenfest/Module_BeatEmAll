@@ -662,10 +662,11 @@ MonoBehaviour:
   playerRb: {fileID: 314623231}
   speedForce: 30
   animator: {fileID: 314623232}
-  jumpForce: 5
+  jumpForce: 1
   maxVelocity: 3
   minVelocity: 2.5
   verticalInputFactor: 0.7
+  gravityMultiplier: 1
 --- !u!1 &1408687386
 GameObject:
   m_ObjectHideFlags: 0
