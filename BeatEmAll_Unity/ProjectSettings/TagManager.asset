@@ -10,6 +10,7 @@ TagManager:
   - DownBorder
   - LeftBorder
   - RightBorder
+  - Enemy
   layers:
   - Default
   - TransparentFX
