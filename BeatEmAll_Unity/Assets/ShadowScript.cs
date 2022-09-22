@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class ShadowScript : MonoBehaviour
 {
-    [SerializeField] Rigidbody2D shadowRb;
+    [SerializeField] Transform player;
+    [SerializeField] Animator shadowAnimator;
     [SerializeField] PlayerController playerController;
 
-    Vector2 direction;
-    float horizontalInput;
-    float verticalInput;
+
 
     // Start is called before the first frame update
     void Start()
@@ -20,11 +19,14 @@ public class ShadowScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
- 
+        if (transform.position.y > player.position.y) transform.position = new Vector2(player.position.x, player.position.y);
+        else if (playerController.contact /*&& !playerController.isJumping*/) transform.position = new Vector2(player.position.x, player.position.y);
+        else
+        {
+            transform.position = new Vector2(player.position.x, transform.position.y);
+            shadowAnimator.SetBool("isJumping", playerController.isJumping);
+        }
     }
 
-    private void FixedUpdate()
-    {
-        shadowRb.AddForce(playerController.speedForce * playerController.direction, ForceMode2D.Force);
-    }
+  
 }

@@ -5,9 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Rigidbody2D playerRb;
-    [SerializeField] Rigidbody2D shadowRb;
-    //[SerializeField] Rigidbody2D jumpPlayerRb;
     [SerializeField] Transform graphics;
+    [SerializeField] Transform playerParent;
     [SerializeField] public float speedForce = 30f;
     [SerializeField] Animator animator;
     [SerializeField] float jumpForce;
@@ -19,8 +18,9 @@ public class PlayerController : MonoBehaviour
     float horizontalInput;
     float verticalInput;
     bool isWalking = false;
-    bool isJumping = false;
+    public bool isJumping = false;
     bool doJump = false;
+    public bool contact = false;
 
 
 
@@ -56,51 +56,14 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        playerRb.AddForce(speedForce * direction, ForceMode2D.Force);
-        shadowRb.AddForce(speedForce * direction, ForceMode2D.Force);
-        if (!isJumping)
+        //seems to be unrelevant
+        if (!contact || verticalInput !=0)
         {
-            playerRb.velocity = new Vector2(
-                Mathf.Clamp(playerRb.velocity.x, -maxVelocity / 2, maxVelocity / 2),
-                Mathf.Clamp(playerRb.velocity.y, -maxVelocity / 2 * vertInputMultiplier, maxVelocity / 2 * vertInputMultiplier)
-                );
-            shadowRb.velocity = new Vector2(
-                Mathf.Clamp(shadowRb.velocity.x, -maxVelocity / 2, maxVelocity / 2),
-                Mathf.Clamp(shadowRb.velocity.y, -maxVelocity / 2 * vertInputMultiplier, maxVelocity / 2 * vertInputMultiplier)
-                );
-
+            playerParent.Translate(new Vector2(direction.x, direction.y * vertInputMultiplier) * speedForce);
         }
-        else
-        {
-            playerRb.velocity = new Vector2(
-            Mathf.Clamp(playerRb.velocity.x, -maxVelocity / 2, maxVelocity / 2),
-            Mathf.Clamp(playerRb.velocity.y, -maxVelocity / 2 * vertInputMultiplier, maxVelocity / 2 * vertInputMultiplier + 1f)
-            );
-            shadowRb.velocity = new Vector2(
-            Mathf.Clamp(shadowRb.velocity.x, -maxVelocity / 2, maxVelocity / 2),
-            Mathf.Clamp(shadowRb.velocity.y, -maxVelocity / 2 * vertInputMultiplier, maxVelocity / 2 * vertInputMultiplier)
-            );
-        }
+        
 
         Jump();
-        ChangeDrag();
-    }
-
-    private void ChangeDrag()
-    {
-        if (!isJumping)
-        {
-            if (playerRb.velocity.magnitude < minVelocity && direction.magnitude == 0f)
-            {
-                playerRb.drag = 50f;
-                shadowRb.drag = 50f;
-            }
-            else
-            {
-                playerRb.drag = 3f;
-                shadowRb.drag = 3f;
-            }
-        }
     }
 
     private void Jump()
@@ -110,18 +73,31 @@ public class PlayerController : MonoBehaviour
 
             animator.SetTrigger("Jump");
             animator.SetBool("isJumping", true);
-            playerRb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            playerRb.AddRelativeForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             playerRb.gravityScale = 0.5f;
             doJump = false;
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("PlayerGroundCollider"))
         {
-            playerRb.gravityScale = 0.5f;
+            playerRb.gravityScale = 0f;
             isJumping = false;
+            Debug.Log("Ground");
+        }
+        if (collision.gameObject.CompareTag("Props"))
+        {
+            contact = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Props"))
+        {
+            contact = false;
         }
     }
 
