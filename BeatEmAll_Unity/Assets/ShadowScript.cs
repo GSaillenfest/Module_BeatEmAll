@@ -19,8 +19,13 @@ public class ShadowScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector2(player.position.x, transform.position.y);
-        shadowAnimator.SetBool("isJumping", playerController.isJumping);
+        if (transform.position.y > player.position.y) transform.position = new Vector2(player.position.x, player.position.y);
+        else if (playerController.contact /*&& !playerController.isJumping*/) transform.position = new Vector2(player.position.x, player.position.y);
+        else
+        {
+            transform.position = new Vector2(player.position.x, transform.position.y);
+            shadowAnimator.SetBool("isJumping", playerController.isJumping);
+        }
     }
 
   
