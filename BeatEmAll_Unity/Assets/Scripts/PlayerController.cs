@@ -5,13 +5,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Rigidbody2D playerRb;
+    [SerializeField] ShadowScript shadow;
     [SerializeField] Transform graphics;
     [SerializeField] Transform playerParent;
     [SerializeField] public float speedForce = 30f;
     [SerializeField] Animator animator;
     [SerializeField] float jumpForce;
-    [SerializeField] float maxVelocity = 3f;
-    [SerializeField] float minVelocity = 2.5f;
     [SerializeField] float vertInputMultiplier = 0.7f;
 
     public Vector2 direction;
@@ -33,16 +32,50 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isJumping = animator.GetBool("isJumping");
+        MovementInputs();
+        FlipSprite();
+
+    }
+
+    private void MovementInputs()
+    {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+        switch (shadow.clampVert)
+        {
+            case "Top":
+                verticalInput = Mathf.Clamp(verticalInput, -1f, 0f);
+                break;
+            case "Down":
+                verticalInput = Mathf.Clamp01(verticalInput);
+                break;
+            default:
+                break;
+        }
+        switch (shadow.clampHori)
+        { 
+            case "Left":
+                horizontalInput = Mathf.Clamp01(horizontalInput);
+                break;
+            case "Right":
+                horizontalInput = Mathf.Clamp(horizontalInput, -1f, 0f);
+                break;
+            default:
+                break;
+        }
         direction = new Vector2(horizontalInput, verticalInput).normalized;
+        
         if (direction.magnitude > 0) isWalking = true;
         else isWalking = false;
-        isJumping = animator.GetBool("isJumping");
-
+        
         animator.SetBool("isWalking", isWalking);
+        
         if (Input.GetButtonDown("Jump") && !isJumping) doJump = true;
+    }
 
+    private void FlipSprite()
+    {
         if (horizontalInput < 0)
         {
             graphics.localScale = new Vector3(-1, 1, 1);
@@ -51,19 +84,20 @@ public class PlayerController : MonoBehaviour
         {
             graphics.localScale = new Vector3(1, 1, 1);
         }
-
     }
 
     private void FixedUpdate()
     {
-        //seems to be unrelevant
-        if (!contact || verticalInput !=0)
+        Move();
+        Jump();
+    }
+
+    private void Move()
+    {
+        if (!contact || verticalInput != 0)
         {
             playerParent.Translate(new Vector2(direction.x, direction.y * vertInputMultiplier) * speedForce);
         }
-        
-
-        Jump();
     }
 
     private void Jump()
@@ -79,27 +113,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("PlayerGroundCollider"))
-        {
-            playerRb.gravityScale = 0f;
-            isJumping = false;
-            Debug.Log("Ground");
-        }
-        if (collision.gameObject.CompareTag("Props"))
-        {
-            contact = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Props"))
-        {
-            contact = false;
-        }
-    }
 
 }
 
