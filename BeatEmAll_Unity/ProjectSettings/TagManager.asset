@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerGroundCollider
   - Props
+  - can
   layers:
   - Default
   - TransparentFX

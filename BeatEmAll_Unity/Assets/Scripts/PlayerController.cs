@@ -10,9 +10,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float speedForce = 30f;
     [SerializeField] Animator animator;
     [SerializeField] float jumpForce;
-    [SerializeField] float maxVelocity = 3f;
     [SerializeField] float minVelocity = 2.5f;
     [SerializeField] float vertInputMultiplier = 0.7f;
+    [SerializeField] Transform fistCollider;
 
     public Vector2 direction;
     float horizontalInput;
@@ -46,10 +46,13 @@ public class PlayerController : MonoBehaviour
         if (horizontalInput < 0)
         {
             graphics.localScale = new Vector3(-1, 1, 1);
+            fistCollider.localScale = new Vector3(-1, 1, 1);
+            
         }
         else if (horizontalInput > 0)
         {
             graphics.localScale = new Vector3(1, 1, 1);
+            fistCollider.localScale = new Vector3(1, 1, 1);
         }
 
     }
@@ -100,6 +103,20 @@ public class PlayerController : MonoBehaviour
             contact = false;
         }
     }
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+       
+        if (collision.gameObject.CompareTag("Props"))
+        {
+            contact = true;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Props"))
+        {
+            contact = false;
+        }
+    }
 }
 
