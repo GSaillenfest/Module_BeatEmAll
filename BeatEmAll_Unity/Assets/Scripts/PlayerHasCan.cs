@@ -6,7 +6,9 @@ public class PlayerHasCan : MonoBehaviour
 {
     [SerializeField] Rigidbody2D playerRb;
     [SerializeField] Animator animator;
-    
+
+    bool canPicked = false;
+    bool hasCan = false;
 
     // Start is called before the first frame update
     void Start()
@@ -18,66 +20,97 @@ public class PlayerHasCan : MonoBehaviour
     private void Update()
     {
         WithCan();
+        Debug.Log(canPicked);
+        hasCan = animator.GetBool("HasCan");
     }
     public void WithCan()
     {
 
-        if (animator.GetBool("isWalking") == true && animator.GetBool("HasCan") == true)
+        if (animator.GetBool("isWalking") == true && canPicked)
         {
             animator.SetBool("WalkWCan", true);
         }
+        else animator.SetBool("WalkWCan", false);
 
-        if (animator.GetBool("isJumping") == true && animator.GetBool("HasCan") == true)
+        if (animator.GetBool("isJumping") == true && canPicked)
         {
             animator.SetTrigger("JumpWCan");
         }
 
-        if (animator.GetBool("HasCan") == true && animator.GetBool("isWalking") == false && animator.GetBool("isJumping") == false)
+        if (animator.GetBool("isWalking") == false && animator.GetBool("isJumping") == false && canPicked)
         {
-            animator.SetBool("WalkWCan", true);
+            animator.SetBool("IdleWCan", true);
+        }
+        else animator.SetBool("IdleWCan", false);
+
+        if (hasCan && Input.GetButtonDown("Fire1"))
+        {
+            animator.SetTrigger("PickUpCan");
+            canPicked = true;
+            
+
         }
 
-        if (animator.GetBool("HasCan") == true && Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && canPicked)
         {
             animator.SetTrigger("LaunchCan");
-            animator.SetBool("HasCan", false);
             CanLaunch();
         }
-        
 
 
-
-
-
-        }
-    void OnCollisionStay2D(Collision2D collision)
+    }
+    void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("can") && Input.GetButtonDown("Fire1"))
+        if (!canPicked)
         {
-            animator.SetBool("HasCan", true);
-            animator.SetTrigger("PickUpCan");
-            CanLift();
+
+            if (collision.gameObject.CompareTag("can"))
+            {
+                animator.SetBool("HasCan", true);
+                if (Input.GetButtonDown("Fire1")) 
+                {
+                    collision.transform.SetParent(gameObject.transform.GetChild(0));
+                }
+    
+            }
+
         }
+    
         if (collision.gameObject.CompareTag("Enemy") && animator.GetBool("HasCan") == true && animator.GetBool("isJumping") == false)
         {
             animator.SetBool("HasCan", false);
             animator.SetBool("LoseCan", true);
             animator.SetTrigger("IsHurt");
         }
-        if (collision.gameObject.CompareTag("Enemy") && animator.GetBool("HasCan") == true && animator.GetBool("isJumping") == true)
-        {
-            animator.SetBool("HasCan", false);
-            animator.SetBool("LoseCan", true);
-            animator.SetTrigger("JumpHurt");
-        }
+        else animator.SetBool("LoseCan", false);
+    
+
+if (collision.gameObject.CompareTag("Enemy") && animator.GetBool("HasCan") == true && animator.GetBool("isJumping") == true)
+{
+    animator.SetBool("HasCan", false);
+    animator.SetBool("LoseCan", true);
+    animator.SetTrigger("JumpHurt");
+}
+else animator.SetBool("LoseCan", false);
 
 
     }
-    public void CanLaunch()
+    void OnTriggerExit2D(Collider2D collision)
+{
+    // if (collision.gameObject.CompareTag("can"))
     {
+        //animator.SetBool("HasCan", false);
+    }
+}
+public void CanLaunch()
+{
+    canPicked = false;
+    animator.SetBool("HasCan", false);
 
-    }//to do
-    public void CanLift()
-    {
-    }//to do
- }
+}//to do
+public void CanLift()
+{
+
+
+}//to do
+}
