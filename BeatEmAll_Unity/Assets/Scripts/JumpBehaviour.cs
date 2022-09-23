@@ -20,7 +20,7 @@ public class JumpBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //animator.gameObject.GetComponent<GravityController>().SetGravity(0f);
-        animator.SetBool("isJumping", false);
+        //animator.SetBool("isJumping", false);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
