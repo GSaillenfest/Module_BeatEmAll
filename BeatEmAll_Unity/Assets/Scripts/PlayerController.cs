@@ -104,7 +104,6 @@ public class PlayerController : MonoBehaviour
     {
         if (doJump)
         {
-
             animator.SetTrigger("Jump");
             animator.SetBool("isJumping", true);
             playerRb.AddRelativeForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
