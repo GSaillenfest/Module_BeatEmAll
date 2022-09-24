@@ -26,28 +26,11 @@ public class PlayerHasCan : MonoBehaviour
     {
         WithCan();
         Debug.Log(canPicked);
-        hasCan = animator.GetBool("HasCan");
 
     }
     public void WithCan()
     {
 
-        if (animator.GetBool("isWalking") == true && canPicked)
-        {
-            animator.SetBool("WalkWCan", true);
-        }
-        else animator.SetBool("WalkWCan", false);
-
-        if (animator.GetBool("isJumping") == true && canPicked)
-        {
-            animator.SetTrigger("JumpWCan");
-        }
-
-        if (animator.GetBool("isWalking") == false && animator.GetBool("isJumping") == false && canPicked)
-        {
-            animator.SetBool("IdleWCan", true);
-        }
-        else animator.SetBool("IdleWCan", false);
 
         if (Input.GetButtonDown("Fire1") && canPicked && !animator.GetBool("isJumping"))
         {
@@ -73,28 +56,18 @@ public class PlayerHasCan : MonoBehaviour
 
             if (collision.gameObject.CompareTag("can"))
             {
-                animator.SetBool("HasCan", true);
+                hasCan = true;
                 can = collision.gameObject;
             }
 
         }
 
-        if (collision.gameObject.CompareTag("Enemy") && animator.GetBool("HasCan") == true && animator.GetBool("isJumping") == false)
+        if (collision.gameObject.CompareTag("Enemy") && canPicked)
         {
-            animator.SetBool("HasCan", false);
-            animator.SetBool("LoseCan", true);
+            canPicked = false;
+            canAnimator.SetTrigger("Drop");
             animator.SetTrigger("IsHurt");
         }
-        else animator.SetBool("LoseCan", false);
-
-
-        if (collision.gameObject.CompareTag("Enemy") && animator.GetBool("HasCan") == true && animator.GetBool("isJumping") == true)
-        {
-            animator.SetBool("HasCan", false);
-            animator.SetBool("LoseCan", true);
-            animator.SetTrigger("JumpHurt");
-        }
-        else animator.SetBool("LoseCan", false);
 
 
     }
