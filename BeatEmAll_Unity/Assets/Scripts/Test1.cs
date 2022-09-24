@@ -35,13 +35,19 @@ public class Test1 : MonoBehaviour
         {
             doJump = true;
         }
-        
-        if (!isJumping) yPosBeforeJump = rb2D.transform.localPosition.y;
+
+        if (!isJumping)
+        {
+            rb2D.velocity = Vector2.ClampMagnitude(rb2D.velocity, 3f);
+            yPosBeforeJump = rb2D.transform.localPosition.y;
+        }
         if (isJumping && verticalInput != 0) yPosBeforeJump += ySpeed * verticalInput * Time.deltaTime;
 
-        shadow.transform.localPosition = new Vector2(rb2D.transform.localPosition.x, yPosBeforeJump - 0.51f);
+        shadow.transform.localPosition = new Vector2(rb2D.transform.localPosition.x, yPosBeforeJump);
 
         if (rb2D.velocity.magnitude < 0.5f && direction.magnitude == 0 && !isJumping) rb2D.velocity = Vector2.zero;
+        
+        
     }
 
     private void FixedUpdate()
@@ -59,7 +65,7 @@ public class Test1 : MonoBehaviour
 
         if (doJump)
         {
-            //rb2D.velocity = new Vector2(rb2D.velocity.x, 0f);
+            rb2D.velocity = new Vector2(rb2D.velocity.x, 0f);
             yPosBeforeJump = rb2D.transform.localPosition.y;
             isJumping = true;
             rb2D.AddRelativeForce(new Vector2(0, 7), ForceMode2D.Impulse);

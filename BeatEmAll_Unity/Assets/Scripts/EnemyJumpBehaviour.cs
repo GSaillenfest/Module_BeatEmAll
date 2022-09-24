@@ -14,8 +14,8 @@ public class EnemyJumpBehaviour : StateMachineBehaviour
         rb2D = animator.gameObject.GetComponentInChildren<Rigidbody2D>();
 
         yPosBeforeJump = rb2D.transform.localPosition.y;
-        rb2D.AddForce(new Vector2(0, 7));
-        rb2D.gravityScale = 0.7f;
+        rb2D.AddForce(new Vector2(0, 650));
+        rb2D.gravityScale = 1.5f;
 
     }
 
