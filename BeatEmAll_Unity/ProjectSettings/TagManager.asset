@@ -6,8 +6,13 @@ TagManager:
   tags:
   - PlayerGroundCollider
   - Props
-  - can
+  - TopBorder
+  - DownBorder
+  - LeftBorder
+  - RightBorder
   - Enemy
+
+  - can
   layers:
   - Default
   - TransparentFX
@@ -16,7 +21,7 @@ TagManager:
   - Water
   - UI
   - PlayerOnlyCollider
-  - 
+  - Borders
   - 
   - 
   - 
