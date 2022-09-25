@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpBehaviour : StateMachineBehaviour
+public class JumpAttackBehaviour : StateMachineBehaviour
 {
+    [SerializeField] float gravScale= 1.1f;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
@@ -18,8 +20,7 @@ public class JumpBehaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //animator.gameObject.GetComponent<GravityController>().SetGravity(0f);
-        animator.SetBool("isJumping", false);
+        animator.gameObject.GetComponent<GravityController>().SetGravity(gravScale);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

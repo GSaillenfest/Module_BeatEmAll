@@ -7,12 +7,13 @@ public class PlayerHasCan : MonoBehaviour
     [SerializeField] Rigidbody2D playerRb;
     [SerializeField] Animator animator;
     [SerializeField] Transform launchedObjects;
+    [SerializeField] PlayerController playerController;
     
 
     Animator canAnimator;
     GameObject can;
 
-    bool canPicked = false;
+    public bool canPicked = false;
     public bool hasCan = false;
 
     // Start is called before the first frame update
@@ -39,16 +40,22 @@ public class PlayerHasCan : MonoBehaviour
 
         if (hasCan && Input.GetButtonUp("Fire1") && !canPicked)
         {
-            animator.SetTrigger("PickUpCan");
-            canPicked = true;
-            can.transform.SetParent(gameObject.transform.GetChild(0));
-            can.GetComponent<Collider2D>().enabled = false;
-            can.transform.localPosition = Vector2.zero;
-            canAnimator = can.GetComponent<Animator>();
+            PickUpCan();
         }
 
 
     }
+
+    private void PickUpCan()
+    {
+        animator.SetTrigger("PickUpCan");
+        if (playerController.isFlipped) can.transform.localScale = new Vector3(-1,1,1);
+        can.transform.SetParent(gameObject.transform.GetChild(0));
+        can.GetComponent<Collider2D>().enabled = false;
+        can.transform.localPosition = Vector2.zero;
+        canAnimator = can.GetComponent<Animator>();
+    }
+
     void OnTriggerStay2D(Collider2D collision)
     {
         if (!canPicked)

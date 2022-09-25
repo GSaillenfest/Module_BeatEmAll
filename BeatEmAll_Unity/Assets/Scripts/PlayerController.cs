@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Rigidbody2D playerRb;
     [SerializeField] ShadowScript shadow;
     [SerializeField] Transform graphics;
+    [SerializeField] Transform fists;
     [SerializeField] Transform playerParent;
     [SerializeField] public float speedForce = 30f;
     [SerializeField] Animator animator;
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     bool doJump = false;
     public bool contact = false;
     public int streakCount = 0;
+    public bool isFlipped = false;
 
 
 
@@ -37,13 +39,17 @@ public class PlayerController : MonoBehaviour
         isJumping = animator.GetBool("isJumping");
         MovementInputs();
         FlipSprite();
+        Attack();
 
-        if (Input.GetButtonDown("Fire1") && !playerHasCan.hasCan)
+    }
+
+    private void Attack()
+    {
+        if (Input.GetButtonDown("Fire1") && !playerHasCan.hasCan && !playerHasCan.canPicked)
         {
             if (animator.GetBool("isAttacking")) streakCount++;
             if (streakCount == 0) animator.SetBool("isAttacking", true);
         }
-
     }
 
     private void MovementInputs()
@@ -88,11 +94,15 @@ public class PlayerController : MonoBehaviour
         {
             graphics.localScale = new Vector3(-1, 1, 1);
             transform.GetChild(0).localScale = new Vector3(-1, 1, 1);
+            fists.localScale = new Vector3(-1, 1, 1);
+            isFlipped = true;
         }
         else if (horizontalInput > 0)
         {
             graphics.localScale = new Vector3(1, 1, 1);
             transform.GetChild(0).localScale = new Vector3(1, 1, 1);
+            fists.localScale = new Vector3(1, 1, 1);
+            isFlipped = false;
         }
     }
 

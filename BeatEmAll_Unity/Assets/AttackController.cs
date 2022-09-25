@@ -32,4 +32,9 @@ public class AttackController : MonoBehaviour
         playerController.streakCount = 0;
 
     }
+
+    public void SetCanPickedTrue()
+    {
+        playerHasCan.canPicked = true;
+    }
 }
