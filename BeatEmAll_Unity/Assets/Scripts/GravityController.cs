@@ -5,7 +5,6 @@ using UnityEngine;
 public class GravityController : MonoBehaviour
 {
     [SerializeField] Rigidbody2D playerRb;
-    [SerializeField] Animator animator;
 
     
 

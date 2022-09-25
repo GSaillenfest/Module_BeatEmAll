@@ -38,7 +38,7 @@ public class PlayerHasCan : MonoBehaviour
             animator.SetTrigger("LaunchCan");
         }
 
-        if (hasCan && Input.GetButtonDown("Fire1") && !canPicked && !animator.GetBool("isJumping") && !animator.GetBool("isAttacking"))
+        if (hasCan && Input.GetButtonUp("Fire1") && !canPicked && !animator.GetBool("isJumping") && !animator.GetBool("isAttacking"))
         {
             PickUpCan();
         }
