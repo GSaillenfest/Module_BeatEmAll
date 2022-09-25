@@ -7,14 +7,16 @@ public class ShadowScript : MonoBehaviour
     [SerializeField] Transform player;
     [SerializeField] Animator shadowAnimator;
     [SerializeField] PlayerController playerController;
+    [SerializeField] Transform shadow;
 
     public string clampVert = "";
     public string clampHori = "";
+    Vector3 startShadowScale;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        startShadowScale = shadow.localScale;
     }
 
     // Update is called once per frame
@@ -25,8 +27,11 @@ public class ShadowScript : MonoBehaviour
         else
         {
             transform.position = new Vector2(player.position.x, transform.position.y);
-            shadowAnimator.SetBool("isJumping", playerController.isJumping);
+            //shadowAnimator.SetBool("isJumping", playerController.isJumping);
         }
+
+        shadow.localScale = ((player.position.y - transform.position.y) - 3.33f) / -3.33f * startShadowScale;
+
     }
 
     private void OnTriggerStay2D(Collider2D collision)
