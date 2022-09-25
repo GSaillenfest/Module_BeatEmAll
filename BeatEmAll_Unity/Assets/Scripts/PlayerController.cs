@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] float jumpForce;
     [SerializeField] float vertInputMultiplier = 0.7f;
+    [SerializeField] PlayerHasCan playerHasCan;
 
     public Vector2 direction;
     float horizontalInput;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public bool isJumping = false;
     bool doJump = false;
     public bool contact = false;
+    public int streakCount = 0;
 
 
 
@@ -35,6 +37,12 @@ public class PlayerController : MonoBehaviour
         isJumping = animator.GetBool("isJumping");
         MovementInputs();
         FlipSprite();
+
+        if (Input.GetButtonDown("Fire1") && !playerHasCan.hasCan)
+        {
+            if (animator.GetBool("isAttacking")) streakCount++;
+            if (streakCount == 0) animator.SetBool("isAttacking", true);
+        }
 
     }
 

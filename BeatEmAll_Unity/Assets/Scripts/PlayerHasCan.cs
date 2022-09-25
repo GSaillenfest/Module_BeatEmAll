@@ -13,7 +13,7 @@ public class PlayerHasCan : MonoBehaviour
     GameObject can;
 
     bool canPicked = false;
-    bool hasCan = false;
+    public bool hasCan = false;
 
     // Start is called before the first frame update
     void Start()
@@ -75,7 +75,7 @@ public class PlayerHasCan : MonoBehaviour
     {
         if (collision.gameObject.Equals(can))
         {
-            animator.SetBool("HasCan", false);
+            hasCan = false;
         }
     }
     public void CanLaunch()
