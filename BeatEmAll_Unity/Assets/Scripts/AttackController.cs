@@ -38,13 +38,6 @@ public class AttackController : MonoBehaviour
         playerPickUp.objectPickedUp = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("HIT should be called");
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            collision.gameObject.GetComponent<HealthEnemies>().Hit(playerController.simpleCombo, playerController.superAttack);
-        }
-    }
+   
 
 }

@@ -11,10 +11,13 @@ public class EnemiesBehaviour : MonoBehaviour
 
     public Transform player;
     Vector2 randomPos;
-    bool move = true; // used for hurt state when false 
+    public bool move = true; // used for hurt state when false 
     public int behaviour = 0;
     float moveTimer = 3f;
-    bool isAttacking;
+    public bool isAttacking;
+    public bool attackTriggered = false;
+    bool isJumping;
+    public bool jumpTriggered = false;
     bool isHurt;
     public bool playerIsAttacking;
 
@@ -33,12 +36,30 @@ public class EnemiesBehaviour : MonoBehaviour
     {
         isAttacking = animator.GetBool("isAttacking");
         isHurt = animator.GetBool("isHurt");
+        isJumping = animator.GetBool("isJumping");
 
         if (isHurt) behaviour = 5;
 
         playerIsAttacking = player.GetComponent<Animator>().GetBool("isAttacking");
         if (behaviour == 4 || behaviour == 5) enemiesRb.drag = dragWhenIsHurt;
         else enemiesRb.drag = 1;
+
+        if (move) animator.SetBool("isWalking", true);
+        else animator.SetBool("isWalking", false);
+    }
+
+    private void FlipSprite(Vector2 destination)
+    {
+        if (destination.x - transform.position.x < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+
+        }
+        else if (destination.x - transform.position.x > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+
+        }
     }
 
     private void FixedUpdate()
@@ -58,7 +79,7 @@ public class EnemiesBehaviour : MonoBehaviour
                 Attack();
                 break;
             case 3:
-                move = true;
+                move = false;
                 Jump();
                 break;
             case 4:
@@ -78,11 +99,7 @@ public class EnemiesBehaviour : MonoBehaviour
 
     private void Hurt()
     {
-        if (!isHurt)
-        {
-            animator.SetTrigger("Hurt");
-        }
-        animator.SetBool("isHurt", true);
+
         if (!isHurt) behaviour = 4;
     }
 
@@ -101,14 +118,32 @@ public class EnemiesBehaviour : MonoBehaviour
 
     private void Jump()
     {
-        animator.SetBool("isJumping", true);
-        behaviour = Random.Range(0, 5);
+        if (!isAttacking && !jumpTriggered)
+        {
+            animator.SetTrigger("Jump");
+            jumpTriggered = true;
+        }
+        if (isJumping && jumpTriggered) return;
+        else if (!isJumping && jumpTriggered)
+        {
+            jumpTriggered = false;
+            behaviour = Random.Range(0, 5);
+        }
     }
 
     private void Attack()
     {
-        animator.SetTrigger("Attack");
-        behaviour = Random.Range(0, 5);
+        if (!isAttacking && !attackTriggered)
+        {
+            animator.SetTrigger("Attack");
+            attackTriggered = true;
+        }
+        if (isAttacking && attackTriggered) return;
+        else if (!isAttacking && attackTriggered)
+        {
+            attackTriggered = false;
+            behaviour = Random.Range(0, 5);
+        }
     }
 
     void Movevement(Vector2 destination)
@@ -120,16 +155,14 @@ public class EnemiesBehaviour : MonoBehaviour
             {
                 moveTimer -= Time.fixedDeltaTime;
                 enemiesRb.MovePosition((destination - enemiesRb.position).normalized * speed + enemiesRb.position);
-                animator.SetBool("isWalking", true);
             }
             else
             {
                 moveTimer = 3f;
-                animator.SetBool("isWalking", false);
                 RandomPos();
                 behaviour = Random.Range(0, 5);
             }
-
+            FlipSprite(destination);
         }
     }
 
@@ -142,7 +175,9 @@ public class EnemiesBehaviour : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Player is close");
             behaviour = 2;
+            jumpTriggered = false;
         }
     }
 

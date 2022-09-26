@@ -136,7 +136,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && !collision.gameObject.GetComponent<HealthEnemies>().isAttacking)
+        {
+        Debug.Log("HIT should be called");
+            collision.gameObject.GetComponent<HealthEnemies>().Hit(simpleCombo, superAttack);
+        }
+    }
+
 
 
 }

@@ -9,7 +9,7 @@ public class EnemyShadow : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] Animator shadowAnimator;
 
-    float yPosBeforeJump;
+    public float yPosBeforeJump;
     public bool isJumping = false;
     Vector3 startShadowScale;
 

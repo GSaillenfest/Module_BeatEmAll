@@ -26,7 +26,6 @@ public class PlayerPickUp : MonoBehaviour
     private void Update()
     {
         WithProjectile();
-        Debug.Log(objectPickedUp);
 
     }
     public void WithProjectile()
