@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
-    [SerializeField] PlayerHasCan playerHasCan;
+    [SerializeField] PlayerPickUp playerPickUp;
     [SerializeField] PlayerController playerController;
     [SerializeField] Animator animator;
 
@@ -12,7 +12,7 @@ public class AttackController : MonoBehaviour
 
     public void Launch()
     {
-        playerHasCan.CanLaunch();
+        playerPickUp.ProjectileLaunch();
     }
 
     public void IsStreakTrue()
@@ -35,6 +35,16 @@ public class AttackController : MonoBehaviour
 
     public void SetCanPickedTrue()
     {
-        playerHasCan.canPicked = true;
+        playerPickUp.objectPickedUp = true;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("HIT should be called");
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            collision.gameObject.GetComponent<HealthEnemies>().Hit(playerController.simpleCombo, playerController.superAttack);
+        }
+    }
+
 }

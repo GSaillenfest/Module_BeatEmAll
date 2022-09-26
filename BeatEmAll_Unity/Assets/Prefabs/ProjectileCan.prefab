@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6116499814062183613}
   - component: {fileID: 6116499814062183619}
   - component: {fileID: 6116499814062183618}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ProjectileCan
-  m_TagString: can
+  m_TagString: PickUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] float jumpForce;
     [SerializeField] float vertInputMultiplier = 0.7f;
-    [SerializeField] PlayerHasCan playerHasCan;
+    [SerializeField] PlayerPickUp playerHasCan;
 
     public Vector2 direction;
     float horizontalInput;
@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     public bool contact = false;
     public int streakCount = 0;
     public bool isFlipped = false;
+    public bool simpleCombo = false;
+    public bool superAttack = false;
 
 
 
@@ -37,6 +39,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         isJumping = animator.GetBool("isJumping");
+        simpleCombo = animator.GetBool("simpleCombo");
+        superAttack = animator.GetBool("superAttack");
         MovementInputs();
         FlipSprite();
         Attack();
@@ -45,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
-        if (Input.GetButtonDown("Fire1") && !playerHasCan.hasCan && !playerHasCan.canPicked)
+        if (Input.GetButtonDown("Fire1") && !playerHasCan.detectsPickUp && !playerHasCan.objectPickedUp)
         {
             if (animator.GetBool("isAttacking")) streakCount++;
             if (streakCount == 0) animator.SetBool("isAttacking", true);
@@ -131,6 +135,8 @@ public class PlayerController : MonoBehaviour
             doJump = false;
         }
     }
+
+    
 
 
 }

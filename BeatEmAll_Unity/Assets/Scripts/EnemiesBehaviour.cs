@@ -7,20 +7,20 @@ public class EnemiesBehaviour : MonoBehaviour
     [SerializeField] Rigidbody2D enemiesRb;
     [SerializeField] float speed = 0.05f;
     [SerializeField] Animator animator;
-    [SerializeField] Transform shadow;
+    [SerializeField] float dragWhenIsHurt;
 
-    Transform player;
-    Vector3 enemiespos;
+    public Transform player;
     Vector2 randomPos;
-    bool Move = true; // used for hurt state when false 
-    int behaviour = 0;
+    bool move = true; // used for hurt state when false 
+    public int behaviour = 0;
     float moveTimer = 3f;
-    Vector3 startShadowScale;
+    bool isAttacking;
+    bool isHurt;
+    public bool playerIsAttacking;
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        startShadowScale = shadow.localScale;
     }
 
     void Start()
@@ -31,7 +31,14 @@ public class EnemiesBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        shadow.localScale = ((enemiesRb.position.y - enemiesRb.position.y) - 3.33f) / -3.33f * startShadowScale;
+        isAttacking = animator.GetBool("isAttacking");
+        isHurt = animator.GetBool("isHurt");
+
+        if (isHurt) behaviour = 5;
+
+        playerIsAttacking = player.GetComponent<Animator>().GetBool("isAttacking");
+        if (behaviour == 4 || behaviour == 5) enemiesRb.drag = dragWhenIsHurt;
+        else enemiesRb.drag = 1;
     }
 
     private void FixedUpdate()
@@ -39,29 +46,44 @@ public class EnemiesBehaviour : MonoBehaviour
         switch (behaviour)
         {
             case 0:
+                move = true;
                 Movevement(randomPos);
                 break;
             case 1:
+                move = true;
                 Movevement(player.position);
                 break;
             case 2:
+                move = false;
                 Attack();
                 break;
             case 3:
+                move = true;
                 Jump();
                 break;
             case 4:
+                move = false;
                 Idle();
                 break;
-
+            case 5:
+                move = false;
+                Hurt();
+                break;
             default:
+                move = false;
                 break;
         }
 
-        //if (enemiespos == screenCenter)
+    }
 
-
-
+    private void Hurt()
+    {
+        if (!isHurt)
+        {
+            animator.SetTrigger("Hurt");
+        }
+        animator.SetBool("isHurt", true);
+        if (!isHurt) behaviour = 4;
     }
 
     private void Idle()
@@ -91,23 +113,24 @@ public class EnemiesBehaviour : MonoBehaviour
 
     void Movevement(Vector2 destination)
     {
-        if ((destination - enemiesRb.position).magnitude > 0.2f && moveTimer >= 0)
+        if (move)
         {
-            moveTimer -= Time.fixedDeltaTime;
-            enemiesRb.MovePosition((destination - enemiesRb.position).normalized * speed + enemiesRb.position);
-            animator.SetBool("isWalking", true);
+
+            if ((destination - enemiesRb.position).magnitude > 0.2f && moveTimer >= 0)
+            {
+                moveTimer -= Time.fixedDeltaTime;
+                enemiesRb.MovePosition((destination - enemiesRb.position).normalized * speed + enemiesRb.position);
+                animator.SetBool("isWalking", true);
+            }
+            else
+            {
+                moveTimer = 3f;
+                animator.SetBool("isWalking", false);
+                RandomPos();
+                behaviour = Random.Range(0, 5);
+            }
+
         }
-        else
-        {
-            moveTimer = 3f;
-            animator.SetBool("isWalking", false);
-            RandomPos();
-            behaviour = Random.Range(0, 5);
-        }
-
-        //TODO else if timer trop grand, changement de behaviour
-
-
     }
 
     void RandomPos()
@@ -121,5 +144,17 @@ public class EnemiesBehaviour : MonoBehaviour
         {
             behaviour = 2;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Debug.Log(collision.gameObject.tag);
+        //if ((collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Projectiles")) /*&& !isAttacking*/ && playerIsAttacking)
+        //{
+        //    Debug.Log("isHurt");
+        //    behaviour = 5;
+        //}
+
+        //if ((collision.gameObject.CompareTag("Player") && isAttacking && )
     }
 }

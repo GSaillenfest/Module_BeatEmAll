@@ -12,6 +12,9 @@ TagManager:
   - RightBorder
   - Enemy
   - can
+  - Attacks
+  - Projectiles
+  - PickUp
   layers:
   - Default
   - TransparentFX

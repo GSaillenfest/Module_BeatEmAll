@@ -9,14 +9,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1154876263811944423}
+  - component: {fileID: 1644328464}
+  - component: {fileID: 924856275}
+  - component: {fileID: 367095155}
   - component: {fileID: 6912894096387787740}
   - component: {fileID: 367095154}
   - component: {fileID: 367095156}
-  - component: {fileID: 367095155}
-  - component: {fileID: 924856275}
   m_Layer: 8
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,6 +38,57 @@ Transform:
   m_Father: {fileID: 3810763011623286920}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1644328464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284324232391741371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34548e39f868f274d95544bea9aa8fcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthinit: 0
+  victim: {fileID: 2435969018333699322}
+  health: 0
+--- !u!114 &924856275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284324232391741371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27d22ae419f2be949b1eae1e5910762a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemiesRb: {fileID: 367095154}
+  speed: 0.05
+  animator: {fileID: 2435969018333699322}
+  dragWhenIsHurt: 5
+  player: {fileID: 0}
+  behaviour: 0
+  playerIsAttacking: 0
+--- !u!114 &367095155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284324232391741371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a93e96734264084785e8ebd46d0f07d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb2D: {fileID: 367095154}
+  shadow: {fileID: 5293552709953205946}
+  animator: {fileID: 2435969018333699322}
+  shadowAnimator: {fileID: 5779488274170622473}
+  isJumping: 0
 --- !u!212 &6912894096387787740
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -99,7 +151,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 1284324232391741371}
   m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 0.01
   m_LinearDrag: 1
@@ -126,39 +178,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 1}
   m_Size: {x: 0.8, y: 1.5}
   m_Direction: 0
---- !u!114 &367095155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284324232391741371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a93e96734264084785e8ebd46d0f07d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb2D: {fileID: 367095154}
-  shadow: {fileID: 5293552709953205946}
-  animator: {fileID: 2435969018333699322}
-  shadowAnimator: {fileID: 5779488274170622473}
-  isJumping: 0
---- !u!114 &924856275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284324232391741371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27d22ae419f2be949b1eae1e5910762a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemiesRb: {fileID: 367095154}
-  speed: 0.05
-  animator: {fileID: 2435969018333699322}
-  shadow: {fileID: 6552628389275915724}
 --- !u!1 &2944299426413993642
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +223,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.090081036, y: -0.03332162}
+  m_Offset: {x: 0, y: -0.03332162}
   serializedVersion: 2
   m_Radius: 0.9265906
 --- !u!1 &3597908604757340872
