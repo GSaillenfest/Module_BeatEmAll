@@ -20,6 +20,7 @@ public class EnemiesBehaviour : MonoBehaviour
     public bool jumpTriggered = false;
     bool isHurt;
     public bool playerIsAttacking;
+    float yPosBeforeJump;
 
     private void Awake()
     {
@@ -83,6 +84,7 @@ public class EnemiesBehaviour : MonoBehaviour
             case 3:
                 move = false;
                 Jump();
+                Jumping();
                 break;
             case 4:
                 move = false;
@@ -101,7 +103,6 @@ public class EnemiesBehaviour : MonoBehaviour
 
     private void Hurt()
     {
-
         if (!isHurt) behaviour = 4;
     }
 
@@ -114,7 +115,7 @@ public class EnemiesBehaviour : MonoBehaviour
         else
         {
             moveTimer = 3f;
-            behaviour = Random.Range(0, 5);
+            ChangeBehaviour(0, 4);
         }
     }
 
@@ -124,6 +125,9 @@ public class EnemiesBehaviour : MonoBehaviour
         {
             animator.SetTrigger("Jump");
             jumpTriggered = true;
+            enemiesRb.gravityScale = 0.7f;
+            enemiesRb.AddForce(new Vector2(0, 7), ForceMode2D.Impulse);
+            yPosBeforeJump = GetComponent<EnemyShadow>().yPosBeforeJump;
         }
 
     }
@@ -151,7 +155,7 @@ public class EnemiesBehaviour : MonoBehaviour
             {
                 moveTimer = 3f;
                 RandomPos();
-                behaviour = Random.Range(0, 5);
+                ChangeBehaviour(0, 4);
             }
             FlipSprite(destination);
         }
@@ -186,7 +190,20 @@ public class EnemiesBehaviour : MonoBehaviour
         jumpTriggered = false;
     }
 
-    
+    void Jumping()
+    {
+        if (isJumping)
+        Debug.Log(transform.position.y + "   " + yPosBeforeJump);
+        {
+            if (transform.position.y < yPosBeforeJump)
+            {
+                enemiesRb.gravityScale = 0f;
+                enemiesRb.velocity = new Vector2(enemiesRb.velocity.x, 0);
+                transform.position = new Vector2(transform.position.x, yPosBeforeJump);
+                animator.SetBool("isJumping", false);
+            }
+        }
+    }
 
     
 }

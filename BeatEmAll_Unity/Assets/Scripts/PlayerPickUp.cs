@@ -8,7 +8,7 @@ public class PlayerPickUp : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] Transform launchedObjects;
     [SerializeField] PlayerController playerController;
-    
+
 
     Animator pickUpAnimator;
     GameObject pickUp;
@@ -48,7 +48,7 @@ public class PlayerPickUp : MonoBehaviour
     private void PickUpObject()
     {
         animator.SetTrigger("PickUpCan");
-        if (playerController.isFlipped) pickUp.transform.localScale = new Vector3(-1,1,1);
+        if (playerController.isFlipped) pickUp.transform.localScale = new Vector3(-1, 1, 1);
         pickUp.transform.SetParent(gameObject.transform.GetChild(0));
         pickUp.tag = "Projectiles";
         pickUp.GetComponent<Collider2D>().enabled = false;
@@ -69,12 +69,7 @@ public class PlayerPickUp : MonoBehaviour
 
         }
 
-        if (collision.gameObject.CompareTag("Enemy") && objectPickedUp)
-        {
-            objectPickedUp = false;
-            pickUpAnimator.SetTrigger("Drop");
-            animator.SetTrigger("IsHurt");
-        }
+
 
 
     }
@@ -92,6 +87,17 @@ public class PlayerPickUp : MonoBehaviour
         animator.SetBool("HasCan", false);
         pickUpAnimator.SetTrigger("Launch");
 
-    }//to do
+    }
+
+    public void Drop()
+    {
+        if (objectPickedUp)
+        {
+            objectPickedUp = false;
+            pickUp.transform.SetParent(launchedObjects, true);
+            animator.SetBool("HasCan", false);
+            pickUpAnimator.SetTrigger("Drop");
+        }
+    }
 
 }

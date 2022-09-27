@@ -32,12 +32,11 @@ public class InstantiateEnemies : MonoBehaviour
             Vector3 spawnpos;
             if (LorR == 0)
             {
-                spawnpos = Camera.main.ViewportToWorldPoint(new Vector3(-0.2f, Random.Range(0f, 0.5f), 10));
-
+                spawnpos = Camera.main.ViewportToWorldPoint(new Vector3(-0.2f, Random.Range(0f, 0.5f), 10f));
             }
             else
             {
-                spawnpos = Camera.main.ViewportToWorldPoint(new Vector3(1.2f, Random.Range(0f, 0.5f), 10));
+                spawnpos = Camera.main.ViewportToWorldPoint(new Vector3(1.2f, Random.Range(0f, 0.5f), 10f));
             }
 
             Instantiate(enemies1, spawnpos, Quaternion.identity, transform);
