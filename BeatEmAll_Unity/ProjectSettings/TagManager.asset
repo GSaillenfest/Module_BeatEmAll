@@ -28,8 +28,8 @@ TagManager:
   - PickUpCircle
   - PickUps
   - EnemyAttack
-  - 
-  - 
+  - Border
+  - EnemyGroundCollider
   - 
   - 
   - 

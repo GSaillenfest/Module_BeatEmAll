@@ -123,12 +123,7 @@ public class EnemiesBehaviour : MonoBehaviour
             animator.SetTrigger("Jump");
             jumpTriggered = true;
         }
-        if (isJumping && jumpTriggered) return;
-        else if (!isJumping && jumpTriggered)
-        {
-            jumpTriggered = false;
-            behaviour = Random.Range(0, 5);
-        }
+
     }
 
     private void Attack()
@@ -137,12 +132,6 @@ public class EnemiesBehaviour : MonoBehaviour
         {
             animator.SetTrigger("Attack");
             attackTriggered = true;
-        }
-        if (isAttacking && attackTriggered) return;
-        else if (!isAttacking && attackTriggered)
-        {
-            attackTriggered = false;
-            behaviour = Random.Range(0, 5);
         }
     }
 
@@ -179,6 +168,13 @@ public class EnemiesBehaviour : MonoBehaviour
             behaviour = 2;
             jumpTriggered = false;
         }
+    }
+
+    public void ChangeBehaviour(int min, int max)
+    {
+        behaviour = Random.Range(min, max + 1);
+        attackTriggered = false;
+        jumpTriggered = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

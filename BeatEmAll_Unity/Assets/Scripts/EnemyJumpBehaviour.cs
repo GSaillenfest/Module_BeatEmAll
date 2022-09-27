@@ -35,7 +35,14 @@ public class EnemyJumpBehaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        if (!animator.GetBool("isAttacking"))
+        {
+            animator.gameObject.GetComponentInChildren<EnemiesBehaviour>().ChangeBehaviour(0, 4);
+        }
+        else if (animator.GetBool("isHurt"))
+        {
+            animator.gameObject.GetComponentInChildren<EnemiesBehaviour>().ChangeBehaviour(5, 5);
+        }
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
