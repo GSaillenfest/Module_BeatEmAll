@@ -9,8 +9,7 @@ public class ShadowScript : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] Transform shadow;
 
-    public string clampVert = "";
-    public string clampHori = "";
+
     Vector3 startShadowScale;
 
     // Start is called before the first frame update
@@ -34,43 +33,6 @@ public class ShadowScript : MonoBehaviour
 
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        Debug.Log("collision");
-        switch (collision.gameObject.tag)
-        {
-            case "TopBorder":
-                clampVert = "Top";
-                break;
-            case "DownBorder":
-                clampVert = "Down";
-                break;
-            case "LeftBorder":
-                clampHori = "Left";
-                break;
-            case "RightBorder":
-                clampHori = "Right";
-                break;
-            default:
-                break;
-        }
-        if (collision.gameObject.CompareTag("TopBorder"))
-        {
-            Debug.Log("You Shall Not Pass !!!!!!!!!");
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("TopBorder") || collision.gameObject.CompareTag("DownBorder"))
-        {
-            clampVert = "";
-        }        
-        if (collision.gameObject.CompareTag("LeftBorder") || collision.gameObject.CompareTag("RightBorder"))
-        {
-            clampHori = "";
-        }
-    }
-
-
 
 }
+

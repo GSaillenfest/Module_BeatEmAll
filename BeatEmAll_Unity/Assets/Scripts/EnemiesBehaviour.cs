@@ -168,6 +168,13 @@ public class EnemiesBehaviour : MonoBehaviour
             behaviour = 2;
             jumpTriggered = false;
         }
+
+        Debug.Log(collision.gameObject.tag);
+        if (collision.gameObject.CompareTag("Projectiles"))
+        {
+            Debug.Log("isHurt");
+            gameObject.GetComponent<HealthEnemies>().Hit(false, false);
+        }
     }
 
     public void ChangeBehaviour(int min, int max)
@@ -177,15 +184,7 @@ public class EnemiesBehaviour : MonoBehaviour
         jumpTriggered = false;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //Debug.Log(collision.gameObject.tag);
-        //if ((collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Projectiles")) /*&& !isAttacking*/ && playerIsAttacking)
-        //{
-        //    Debug.Log("isHurt");
-        //    behaviour = 5;
-        //}
+    
 
-        //if ((collision.gameObject.CompareTag("Player") && isAttacking && )
-    }
+    
 }

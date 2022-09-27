@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Rigidbody2D playerRb;
-    [SerializeField] ShadowScript shadow;
+    [SerializeField] GroundCollider groundCollider;
     [SerializeField] Transform graphics;
     [SerializeField] Transform fists;
     [SerializeField] Transform playerParent;
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
-        switch (shadow.clampVert)
+        switch (groundCollider.clampVert)
         {
             case "Top":
                 verticalInput = Mathf.Clamp(verticalInput, -1f, 0f);
@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
             default:
                 break;
         }
-        switch (shadow.clampHori)
+        switch (groundCollider.clampHori)
         { 
             case "Left":
                 horizontalInput = Mathf.Clamp01(horizontalInput);
