@@ -10,6 +10,7 @@ public class PlayerHealth : MonoBehaviour
 
     public bool isAttacking;
     public float health =100;
+    bool isHurt = false;
 
     private void Awake()
 
@@ -27,7 +28,7 @@ public class PlayerHealth : MonoBehaviour
     void Update()
     {
         isAttacking = gameObject.GetComponent<Animator>().GetBool("isAttacking");
-     
+        isHurt = gameObject.GetComponent<Animator>().GetBool("isHurt");
     }
 
 
@@ -45,8 +46,7 @@ public class PlayerHealth : MonoBehaviour
         {
             health = 0;
             gameObject.GetComponent<Animator>().SetTrigger("IsHurt");
-            gameObject.GetComponent<Animator>().SetTrigger("Dead");
-            Destroy(gameObject);
+            gameObject.GetComponent<Animator>().SetBool("Dead", true);
 
         }
             
@@ -55,7 +55,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Hit();
+            if (!isHurt) Hit();
         }
     }
 

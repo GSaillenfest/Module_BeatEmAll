@@ -49,10 +49,19 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
-        if (Input.GetButtonDown("Fire1") && !playerHasCan.detectsPickUp && !playerHasCan.objectPickedUp && direction.magnitude != 0)
+        if (Input.GetButtonDown("Fire1") && !playerHasCan.detectsPickUp && !playerHasCan.objectPickedUp)
         {
-            if (animator.GetBool("isAttacking")) streakCount++;
-            if (streakCount == 0) animator.SetBool("isAttacking", true);
+            if (isJumping && direction.magnitude != 0)
+            {
+                if (animator.GetBool("isAttacking")) streakCount++;
+                if (streakCount == 0) animator.SetBool("isAttacking", true);
+            }
+            else if (!isJumping)
+            {
+                if (animator.GetBool("isAttacking")) streakCount++;
+                if (streakCount == 0) animator.SetBool("isAttacking", true);
+
+            }
         }
 
         animator.SetBool("ComboAttack", Input.GetButtonDown("Fire1") && isJumping && direction.magnitude == 0 && !simpleCombo);
@@ -123,9 +132,9 @@ public class PlayerController : MonoBehaviour
         if (!contact || verticalInput != 0)
         {
 
-            if (animator.GetBool("isAttacking")) playerParent.Translate(new Vector2(direction.x, direction.y * vertInputMultiplier) * speedForce/3);
+            if (animator.GetBool("isAttacking")) playerParent.Translate(new Vector2(direction.x, direction.y * vertInputMultiplier) * speedForce / 3);
             else playerParent.Translate(new Vector2(direction.x, direction.y * vertInputMultiplier) * speedForce);
-            
+
         }
     }
 

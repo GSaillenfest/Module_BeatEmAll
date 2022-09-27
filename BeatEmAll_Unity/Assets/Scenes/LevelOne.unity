@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc6484b3a3f0da4badd0c37596ece80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxEnemiesLvl: 20
+  maxEnemiesLvl: 8
   enemies1: {fileID: 7950554590070946526, guid: d828ca6099c8de747bb28d71099db469, type: 3}
   nbEnemiesLvl: 0
 --- !u!4 &191053180
