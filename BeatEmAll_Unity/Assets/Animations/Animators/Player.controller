@@ -919,7 +919,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Throw-PlayerCan
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8642904803282791783}
@@ -1442,7 +1442,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Attack_Player
-  m_Speed: 0.8
+  m_Speed: 1.4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1965657071401359283}
