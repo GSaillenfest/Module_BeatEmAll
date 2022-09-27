@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 8791578881081476881}
   - component: {fileID: 8791578881081476880}
   - component: {fileID: 8791578881081476844}
-  - component: {fileID: 8791578881081476845}
   - component: {fileID: 8791578881081476842}
   m_Layer: 3
   m_Name: Player
@@ -228,19 +227,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 8791578881081476881}
---- !u!114 &8791578881081476845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8791578881081476882}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 491a3b564d65fa84ab12ccef719ef0e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Animator: {fileID: 8791578881081476846}
 --- !u!114 &8791578881081476842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39615fbb007affd438c5e338c1024781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHasCan: {fileID: 0}
+  playerPickUp: {fileID: 635431243}
   playerController: {fileID: 8791578881869669911}
   animator: {fileID: 8791578881081476846}
 --- !u!1 &8791578881206333663
@@ -338,8 +324,6 @@ MonoBehaviour:
   shadowAnimator: {fileID: 8791578881696886622}
   playerController: {fileID: 8791578881869669911}
   shadow: {fileID: 8791578880639288750}
-  clampVert: .1
-  clampHori: .5
 --- !u!95 &8791578881696886622
 Animator:
   serializedVersion: 4
@@ -419,7 +403,6 @@ GameObject:
   - component: {fileID: 8791578881869669910}
   - component: {fileID: 8791578881869669911}
   - component: {fileID: 8791578881869669908}
-  - component: {fileID: 8791578881869669906}
   - component: {fileID: 635431243}
   m_Layer: 9
   m_Name: Controller
@@ -457,7 +440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 8791578881081476881}
-  shadow: {fileID: 8791578881696886593}
+  groundCollider: {fileID: 8791578881985141541}
   graphics: {fileID: 8791578882202580171}
   fists: {fileID: 8791578881788772799}
   playerParent: {fileID: 8791578880916276596}
@@ -465,12 +448,14 @@ MonoBehaviour:
   animator: {fileID: 8791578881081476846}
   jumpForce: 15
   vertInputMultiplier: 0.5
-  playerHasCan: {fileID: 0}
+  playerHasCan: {fileID: 635431243}
   direction: {x: 0, y: 0}
   isJumping: 0
   contact: 0
   streakCount: 0
   isFlipped: 0
+  simpleCombo: 0
+  superAttack: 0
 --- !u!70 &8791578881869669908
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -487,18 +472,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.2235818, y: 0.413661}
   m_Size: {x: 1.0847359, y: 1.0847359}
   m_Direction: 0
---- !u!114 &8791578881869669906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8791578881869669913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f51d560c36408142b4cc2cf87e1eaea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &635431243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,10 +484,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76893dea3ea057d44a05a0f6a04e2f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRb: {fileID: 0}
-  animator: {fileID: 0}
+  playerRb: {fileID: 8791578881081476881}
+  animator: {fileID: 8791578881081476846}
   launchedObjects: {fileID: 0}
-  playerController: {fileID: 0}
+  playerController: {fileID: 8791578881869669911}
   objectPickedUp: 0
   detectsPickUp: 0
 --- !u!1 &8791578881985141545
@@ -611,6 +584,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8791578881081476846}
+  clampVert: 
+  clampHori: 
 --- !u!1 &8791578882202580170
 GameObject:
   m_ObjectHideFlags: 0

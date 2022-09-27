@@ -46,6 +46,8 @@ public class EnemiesBehaviour : MonoBehaviour
 
         if (move) animator.SetBool("isWalking", true);
         else animator.SetBool("isWalking", false);
+
+
     }
 
     private void FlipSprite(Vector2 destination)
