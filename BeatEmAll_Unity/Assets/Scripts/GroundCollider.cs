@@ -34,24 +34,17 @@ public class GroundCollider : MonoBehaviour
         switch (collision.gameObject.tag)
         {
             case "TopBorder":
-                clampVert = "Top";
-                break;
             case "DownBorder":
-                clampVert = "Down";
+                clampVert = collision.gameObject.tag;
                 break;
             case "LeftBorder":
-                clampHori = "Left";
-                break;
             case "RightBorder":
-                clampHori = "Right";
+                clampHori = collision.gameObject.tag;
                 break;
             default:
                 break;
         }
-        if (collision.gameObject.CompareTag("TopBorder"))
-        {
-            Debug.Log("You Shall Not Pass !!!!!!!!!");
-        }
+
     }
     private void OnTriggerExit2D(Collider2D collision)
     {

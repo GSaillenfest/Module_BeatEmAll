@@ -2,31 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyJumpAttackBehaviour : StateMachineBehaviour
+public class EnemyIdle : StateMachineBehaviour
 {
-    float yPosBeforeJump;
-    Rigidbody2D rb2D;
-
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        //rb2D = animator.gameObject.GetComponentInChildren<Rigidbody2D>();
-
-        //yPosBeforeJump = animator.gameObject.GetComponentInChildren<EnemyShadow>().yPosBeforeJump;
-        //rb2D.gravityScale = 0.7f;
-    }
+    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    if (animator.gameObject.GetComponentInChildren<Rigidbody2D>().velocity.y != 0)
+    //    {
+    //        animator.SetBool("isJumping", false);
+    //    }
+    //}
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        //if (rb2D.transform.localPosition.y < yPosBeforeJump)
-        //{
-        //    rb2D.velocity = new Vector2(rb2D.velocity.x, 0);
-        //    rb2D.gravityScale = 0f;
-        //    rb2D.transform.localPosition = new Vector2(rb2D.transform.localPosition.x, yPosBeforeJump);
-
-        //}
-    }
+    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    
+    //}
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

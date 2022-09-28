@@ -5,7 +5,6 @@ using UnityEngine;
 public class ShadowScript : MonoBehaviour
 {
     [SerializeField] Transform player;
-    [SerializeField] Animator shadowAnimator;
     [SerializeField] PlayerController playerController;
     [SerializeField] Transform shadow;
 
@@ -26,11 +25,9 @@ public class ShadowScript : MonoBehaviour
         else
         {
             transform.position = new Vector2(player.position.x, transform.position.y);
-            //shadowAnimator.SetBool("isJumping", playerController.isJumping);
         }
 
         shadow.localScale = ((player.position.y - transform.position.y) - 3.33f) / -3.33f * startShadowScale;
-
     }
 
 

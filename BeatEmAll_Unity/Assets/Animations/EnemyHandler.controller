@@ -71,7 +71,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2572759091653275151}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -4161087170978734510}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -148,6 +149,19 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-4161087170978734510
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a642247271d0547be6b891a9f8708e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravScale: 1.1
 --- !u!1102 &-4127812068738621464
 AnimatorState:
   serializedVersion: 6
@@ -586,7 +600,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: EnemyBasic_Jump_anim
-  m_Speed: 1.5
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5079329777986846754}
@@ -802,6 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a642247271d0547be6b891a9f8708e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gravScale: 1.1
 --- !u!1101 &4419521444667951191
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

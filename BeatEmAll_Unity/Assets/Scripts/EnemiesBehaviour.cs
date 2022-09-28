@@ -8,6 +8,9 @@ public class EnemiesBehaviour : MonoBehaviour
     [SerializeField] float speed = 0.05f;
     [SerializeField] Animator animator;
     [SerializeField] float dragWhenIsHurt;
+    [SerializeField] float jumpForce;
+    [SerializeField] GroundCollider groundCollider;
+
 
     public Transform player;
     Vector2 randomPos;
@@ -16,11 +19,12 @@ public class EnemiesBehaviour : MonoBehaviour
     float moveTimer = 3f;
     public bool isAttacking;
     public bool attackTriggered = false;
-    bool isJumping;
+    public bool isJumping;
     public bool jumpTriggered = false;
     bool isHurt;
     public bool playerIsAttacking;
-    float yPosBeforeJump;
+    float drag;
+    bool firstPath = true;
 
     private void Awake()
     {
@@ -30,6 +34,7 @@ public class EnemiesBehaviour : MonoBehaviour
     void Start()
     {
         RandomPos();
+        drag = enemiesRb.drag;
     }
 
     // Update is called once per frame
@@ -42,11 +47,19 @@ public class EnemiesBehaviour : MonoBehaviour
         if (isHurt) behaviour = 5;
 
         playerIsAttacking = player.GetComponent<Animator>().GetBool("isAttacking");
-        if (behaviour == 4 || behaviour == 5) enemiesRb.drag = dragWhenIsHurt;
-        else enemiesRb.drag = 1;
+        if ((behaviour == 2 && !isJumping) || behaviour == 5) enemiesRb.drag = dragWhenIsHurt;
+        else enemiesRb.drag = drag;
 
-        if (move) animator.SetBool("isWalking", true);
-        else animator.SetBool("isWalking", false);
+        if (move)
+        {
+            animator.SetBool("isWalking", true);
+            enemiesRb.gravityScale = 0f;
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
+            enemiesRb.gravityScale = 1.1f;
+        }
 
 
     }
@@ -56,17 +69,36 @@ public class EnemiesBehaviour : MonoBehaviour
         if (destination.x - transform.position.x < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);
-
         }
         else if (destination.x - transform.position.x > 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
-
         }
     }
 
     private void FixedUpdate()
     {
+        if (!firstPath)
+        {
+            switch (groundCollider.clampVert)
+            {
+                case "TopBorder":
+                case "DownBorder":
+                    
+                    break;
+                default:
+                    break;
+            }
+            switch (groundCollider.clampHori)
+            {
+                case "LeftBorder":
+                case "RightBorder":
+                    break;
+                default:
+                    break;
+            }
+        }
+
         switch (behaviour)
         {
             case 0:
@@ -84,7 +116,6 @@ public class EnemiesBehaviour : MonoBehaviour
             case 3:
                 move = false;
                 Jump();
-                Jumping();
                 break;
             case 4:
                 move = false;
@@ -108,14 +139,17 @@ public class EnemiesBehaviour : MonoBehaviour
 
     private void Idle()
     {
-        if (moveTimer >= 0)
+        if (!isJumping)
         {
-            moveTimer -= Time.fixedDeltaTime;
-        }
-        else
-        {
-            moveTimer = 3f;
-            ChangeBehaviour(0, 4);
+            if (moveTimer >= 0)
+            {
+                moveTimer -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                moveTimer = 3f;
+                ChangeBehaviour(0, 4);
+            }
         }
     }
 
@@ -124,10 +158,10 @@ public class EnemiesBehaviour : MonoBehaviour
         if (!isAttacking && !jumpTriggered)
         {
             animator.SetTrigger("Jump");
+            animator.SetBool("isJumping", true);
+            enemiesRb.AddRelativeForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            enemiesRb.gravityScale = 0.5f;
             jumpTriggered = true;
-            enemiesRb.gravityScale = 0.7f;
-            enemiesRb.AddForce(new Vector2(0, 7), ForceMode2D.Impulse);
-            yPosBeforeJump = GetComponent<EnemyShadow>().yPosBeforeJump;
         }
 
     }
@@ -143,22 +177,23 @@ public class EnemiesBehaviour : MonoBehaviour
 
     void Movevement(Vector2 destination)
     {
-        if (move)
+        if (move && !isJumping)
         {
-
             if ((destination - enemiesRb.position).magnitude > 0.2f && moveTimer >= 0)
             {
                 moveTimer -= Time.fixedDeltaTime;
-                enemiesRb.MovePosition((destination - enemiesRb.position).normalized * speed + enemiesRb.position);
+                transform.parent.Translate((destination - new Vector2(transform.parent.position.x, transform.parent.position.y)).normalized * speed);
             }
             else
             {
                 moveTimer = 3f;
+                firstPath = false;
                 RandomPos();
                 ChangeBehaviour(0, 4);
             }
             FlipSprite(destination);
         }
+
     }
 
     void RandomPos()
@@ -190,20 +225,20 @@ public class EnemiesBehaviour : MonoBehaviour
         jumpTriggered = false;
     }
 
-    void Jumping()
-    {
-        if (isJumping)
-        Debug.Log(transform.position.y + "   " + yPosBeforeJump);
-        {
-            if (transform.position.y < yPosBeforeJump)
-            {
-                enemiesRb.gravityScale = 0f;
-                enemiesRb.velocity = new Vector2(enemiesRb.velocity.x, 0);
-                transform.position = new Vector2(transform.position.x, yPosBeforeJump);
-                animator.SetBool("isJumping", false);
-            }
-        }
-    }
+    //void Jumping()
+    //{
+    //    if (isJumping)
+    //    Debug.Log(transform.position.y + "   " + yPosBeforeJump);
+    //    {
+    //        if (transform.position.y < yPosBeforeJump)
+    //        {
+    //            enemiesRb.gravityScale = 0f;
+    //            enemiesRb.velocity = new Vector2(enemiesRb.velocity.x, 0);
+    //            transform.position = new Vector2(transform.position.x, yPosBeforeJump);
+    //            animator.SetBool("isJumping", false);
+    //        }
+    //    }
+    //}
 
-    
+
 }

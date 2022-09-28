@@ -4,18 +4,10 @@ using UnityEngine;
 
 public class EnemyJumpBehaviour : StateMachineBehaviour
 {
-    float yPosBeforeJump;
-    Rigidbody2D rb2D;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetBool("isJumping", true);
-        //rb2D = animator.gameObject.GetComponentInChildren<Rigidbody2D>();
-
-        //rb2D.gravityScale = 0.7f;
-        //rb2D.AddForce(new Vector2(0, 7), ForceMode2D.Impulse);
-        //yPosBeforeJump = animator.gameObject.GetComponentInChildren<EnemyShadow>().yPosBeforeJump;
 
     }
 
@@ -42,6 +34,8 @@ public class EnemyJumpBehaviour : StateMachineBehaviour
         {
             animator.gameObject.GetComponentInChildren<EnemiesBehaviour>().ChangeBehaviour(5, 5);
         }
+        animator.SetBool("isJumping", false);
+
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

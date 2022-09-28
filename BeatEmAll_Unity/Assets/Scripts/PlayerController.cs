@@ -73,10 +73,10 @@ public class PlayerController : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
         switch (groundCollider.clampVert)
         {
-            case "Top":
+            case "TopBorder":
                 verticalInput = Mathf.Clamp(verticalInput, -1f, 0f);
                 break;
-            case "Down":
+            case "DownBorder":
                 verticalInput = Mathf.Clamp01(verticalInput);
                 break;
             default:
@@ -84,10 +84,10 @@ public class PlayerController : MonoBehaviour
         }
         switch (groundCollider.clampHori)
         {
-            case "Left":
+            case "LeftBorder":
                 horizontalInput = Mathf.Clamp01(horizontalInput);
                 break;
-            case "Right":
+            case "RightBorder":
                 horizontalInput = Mathf.Clamp(horizontalInput, -1f, 0f);
                 break;
             default:
