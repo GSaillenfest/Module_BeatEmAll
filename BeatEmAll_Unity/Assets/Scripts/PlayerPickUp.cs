@@ -89,7 +89,7 @@ public class PlayerPickUp : MonoBehaviour
 
     }
 
-    public void Drop()
+    public void DropProjectile()
     {
         if (objectPickedUp)
         {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthEnemies : MonoBehaviour
+public class EnemyHealth : MonoBehaviour
 {
     //public GameObject record;
     //public GameObject tape;

@@ -55,7 +55,7 @@ public class PlayerHealth : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy") && !isAttacking)
         {
             if (!isHurt) Hit();
-            GetComponentInChildren<PlayerPickUp>().Drop();
+            GetComponentInChildren<PlayerPickUp>().DropProjectile();
         }
     }
 

@@ -89,6 +89,7 @@ public class EnemiesBehaviour : MonoBehaviour
                 case "TopBorder":
                 case "DownBorder":
                     gravityController.SetGravity(0f);
+                    move = false;
                     break;
                 default:
                     break;
@@ -198,7 +199,6 @@ public class EnemiesBehaviour : MonoBehaviour
             }
             FlipSprite(destination);
         }
-
     }
 
     void RandomPos()
@@ -217,7 +217,7 @@ public class EnemiesBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("Projectiles"))
         {
             Debug.Log("isHurt");
-            gameObject.GetComponent<HealthEnemies>().Hit(false, false);
+            gameObject.GetComponent<EnemyHealth>().Hit(false, false);
         }
     }
 

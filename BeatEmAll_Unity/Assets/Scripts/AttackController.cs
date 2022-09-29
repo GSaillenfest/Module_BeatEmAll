@@ -43,7 +43,7 @@ public class AttackController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))// && !collision.gameObject.GetComponent<HealthEnemies>().isAttacking)
         {
-            collision.gameObject.GetComponent<HealthEnemies>().Hit(playerController.simpleCombo, playerController.superAttack);
+            collision.gameObject.GetComponent<EnemyHealth>().Hit(playerController.simpleCombo, playerController.superAttack);
         }
     }
 
