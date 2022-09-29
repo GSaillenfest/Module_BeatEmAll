@@ -30,13 +30,11 @@ public class HealthEnemies : MonoBehaviour
     void Update()
     {
         isAttacking = victim.GetBool("isAttacking");
-        Debug.Log(health);
     }
 
 
     public void Hit(bool simpleCombo, bool superAttack)
     {
-        Debug.Log("HIT is called");
         if (!simpleCombo && !superAttack)
         {
             if (health > (healthinit / 2) && !isAttacking)

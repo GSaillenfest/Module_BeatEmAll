@@ -9,14 +9,16 @@ public class EnemiesBehaviour : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] float dragWhenIsHurt;
     [SerializeField] float jumpForce;
-    [SerializeField] GroundCollider groundCollider;
+    [SerializeField] EnemyGroundCollider groundCollider;
+    [SerializeField] GravityController gravityController;
+    [SerializeField] float moveTimer = 3f;
+    [SerializeField] float idleTimer = 3f;
 
 
     public Transform player;
     Vector2 randomPos;
     public bool move = true; // used for hurt state when false 
     public int behaviour = 0;
-    float moveTimer = 3f;
     public bool isAttacking;
     public bool attackTriggered = false;
     public bool isJumping;
@@ -25,6 +27,7 @@ public class EnemiesBehaviour : MonoBehaviour
     public bool playerIsAttacking;
     float drag;
     bool firstPath = true;
+    bool isDead;
 
     private void Awake()
     {
@@ -44,23 +47,24 @@ public class EnemiesBehaviour : MonoBehaviour
         isHurt = animator.GetBool("isHurt");
         isJumping = animator.GetBool("isJumping");
 
-        if (isHurt) behaviour = 5;
+        if (isHurt) ChangeBehaviour(5);
 
         playerIsAttacking = player.GetComponent<Animator>().GetBool("isAttacking");
         if ((behaviour == 2 && !isJumping) || behaviour == 5) enemiesRb.drag = dragWhenIsHurt;
         else enemiesRb.drag = drag;
 
+        if (isDead) move = false;
+
         if (move)
         {
             animator.SetBool("isWalking", true);
-            enemiesRb.gravityScale = 0f;
         }
         else
         {
             animator.SetBool("isWalking", false);
-            enemiesRb.gravityScale = 1.1f;
         }
 
+        //if (!isJumping) enemiesRb.velocity = new Vector2(enemiesRb.velocity.x, 0f);
 
     }
 
@@ -84,7 +88,7 @@ public class EnemiesBehaviour : MonoBehaviour
             {
                 case "TopBorder":
                 case "DownBorder":
-                    
+                    gravityController.SetGravity(0f);
                     break;
                 default:
                     break;
@@ -93,6 +97,7 @@ public class EnemiesBehaviour : MonoBehaviour
             {
                 case "LeftBorder":
                 case "RightBorder":
+                    randomPos = player.position;
                     break;
                 default:
                     break;
@@ -134,20 +139,20 @@ public class EnemiesBehaviour : MonoBehaviour
 
     private void Hurt()
     {
-        if (!isHurt) behaviour = 4;
+        if (!isHurt) ChangeBehaviour(4);
     }
 
     private void Idle()
     {
         if (!isJumping)
         {
-            if (moveTimer >= 0)
+            if (idleTimer >= 0)
             {
-                moveTimer -= Time.fixedDeltaTime;
+                idleTimer -= Time.fixedDeltaTime;
             }
             else
             {
-                moveTimer = 3f;
+                idleTimer = 3f;
                 ChangeBehaviour(0, 4);
             }
         }
@@ -179,7 +184,7 @@ public class EnemiesBehaviour : MonoBehaviour
     {
         if (move && !isJumping)
         {
-            if ((destination - enemiesRb.position).magnitude > 0.2f && moveTimer >= 0)
+            if ((destination - enemiesRb.position).magnitude > 0.2f && (firstPath || moveTimer >= 0))
             {
                 moveTimer -= Time.fixedDeltaTime;
                 transform.parent.Translate((destination - new Vector2(transform.parent.position.x, transform.parent.position.y)).normalized * speed);
@@ -205,12 +210,10 @@ public class EnemiesBehaviour : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player is close");
             behaviour = 2;
             jumpTriggered = false;
         }
 
-        Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.CompareTag("Projectiles"))
         {
             Debug.Log("isHurt");
@@ -218,11 +221,20 @@ public class EnemiesBehaviour : MonoBehaviour
         }
     }
 
-    public void ChangeBehaviour(int min, int max)
+    public void ChangeBehaviour(int min, int max = -1)
     {
-        behaviour = Random.Range(min, max + 1);
-        attackTriggered = false;
-        jumpTriggered = false;
+        if (max == -1)
+        {
+            behaviour = min;
+            attackTriggered = false;
+            jumpTriggered = false;
+        }
+        else
+        {
+            behaviour = Random.Range(min, max + 1);
+            attackTriggered = false;
+            jumpTriggered = false;
+        }
     }
 
     //void Jumping()

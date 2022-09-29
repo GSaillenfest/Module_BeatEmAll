@@ -28,13 +28,13 @@ public class EnemyJumpBehaviour : StateMachineBehaviour
     {
         if (!animator.GetBool("isAttacking"))
         {
-            animator.gameObject.GetComponentInChildren<EnemiesBehaviour>().ChangeBehaviour(0, 4);
+            animator.gameObject.GetComponentInChildren<EnemiesBehaviour>().ChangeBehaviour(4);
         }
         else if (animator.GetBool("isHurt")) //Not working because of isHurt is only active in Hurt State;
         {
-            animator.gameObject.GetComponentInChildren<EnemiesBehaviour>().ChangeBehaviour(5, 5);
+            animator.gameObject.GetComponentInChildren<EnemiesBehaviour>().ChangeBehaviour(5);
         }
-        animator.SetBool("isJumping", false);
+        else animator.SetBool("isJumping", false);
 
     }
 

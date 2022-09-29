@@ -34,7 +34,6 @@ public class PlayerHealth : MonoBehaviour
 
     public void Hit()
     {
-        Debug.Log(" Player HIT is called");
 
         if (health > 0 && !isAttacking)
         {

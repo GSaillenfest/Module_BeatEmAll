@@ -20,8 +20,10 @@ public class EnemyShadowScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y > enemy.position.y) transform.position = new Vector2(enemy.position.x, enemy.position.y);
-        else if (!enemyScript.isJumping) transform.position = new Vector2(enemy.position.x, enemy.position.y);
+        Debug.Log((enemy.position.y - transform.position.y));
+
+        //if (transform.position.y > enemy.position.y) transform.position = new Vector2(enemy.position.x, enemy.position.y);
+        if (enemyScript.behaviour != 3 && !enemyScript.isJumping) transform.position = new Vector2(enemy.position.x, enemy.position.y);
         else
         {
             transform.position = new Vector2(enemy.position.x, transform.position.y);

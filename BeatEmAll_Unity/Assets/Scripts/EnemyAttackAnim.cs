@@ -20,7 +20,7 @@ public class EnemyAttackAnim : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.SetBool("isAttacking", false);
-        animator.gameObject.GetComponentInChildren<EnemiesBehaviour>().ChangeBehaviour(0,4);
+        animator.gameObject.GetComponentInChildren<EnemiesBehaviour>().ChangeBehaviour(0,1);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundCollider : MonoBehaviour
+public class EnemyGroundCollider : MonoBehaviour
 {
     [SerializeField] Animator animator;
+    [SerializeField] Rigidbody2D enemyRb;
 
     public string clampVert = "";
     public string clampHori = "";
@@ -21,10 +22,16 @@ public class GroundCollider : MonoBehaviour
     {
 
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        animator.SetBool("isJumping", false);
+            Debug.Log("Ground ?");
 
+        if (collision.transform.parent.Equals(transform.parent.parent))
+        {
+            enemyRb.gravityScale = 0f;
+            enemyRb.velocity = new Vector2(enemyRb.velocity.x, 0f);
+            animator.SetBool("isJumping", false);
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)

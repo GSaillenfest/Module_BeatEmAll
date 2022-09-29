@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
         if (!contact || verticalInput != 0)
         {
 
-            if (animator.GetBool("isAttacking")) playerParent.Translate(new Vector2(direction.x, direction.y * vertInputMultiplier) * speedForce / 3);
+            if (animator.GetBool("isAttacking")) playerParent.Translate(new Vector2(direction.x, direction.y * vertInputMultiplier) * 0f);
             else playerParent.Translate(new Vector2(direction.x, direction.y * vertInputMultiplier) * speedForce);
 
         }
