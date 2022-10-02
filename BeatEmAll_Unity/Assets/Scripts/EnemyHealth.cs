@@ -8,6 +8,7 @@ public class EnemyHealth : MonoBehaviour
     //public GameObject tape;
     public float healthinit;
     public Animator victim;
+    public ParticleSystem blood;
 
     public bool isAttacking;
     bool simpleCombo;
@@ -39,6 +40,7 @@ public class EnemyHealth : MonoBehaviour
         {
             if (health > (healthinit / 2) && !isAttacking)
             {
+                blood.Play();
                 health -= 7.5f;
                 victim.SetTrigger("Hurt");
             }
@@ -49,16 +51,19 @@ public class EnemyHealth : MonoBehaviour
 
                 if (health > 0 && health >= (healthinit / 4))
                 {
+                    blood.Play();
                     victim.SetTrigger("Hurt");
 
                 }
                 else if (health > 0 && health <= (healthinit / 4))
                 {
+                blood.Play();
                     victim.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health <= 0)
                 {
+                    blood.Play();
                     health = 0;
                     victim.SetBool("isDead", true);
                     DropCollectibles();
@@ -70,12 +75,14 @@ public class EnemyHealth : MonoBehaviour
                 health -= 7.5f;
                 if (health > 0)
                 {
+                    blood.Play();
                     victim.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health <= 0)
                 {
                     health = 0;
+                    blood.Play();
                     victim.SetTrigger("Hurt");
                     victim.SetBool("isDead", true);
                     DropCollectibles();
@@ -89,6 +96,7 @@ public class EnemyHealth : MonoBehaviour
             if (health > (healthinit / 2) && !isAttacking)
             {
                 health -= 20f;
+                    blood.Play();
                 victim.SetTrigger("Hurt");
             }
 
@@ -98,17 +106,20 @@ public class EnemyHealth : MonoBehaviour
 
                 if (health > 0 && health >= (healthinit / 4))
                 {
+                    blood.Play();
                     victim.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health > 0 && health <= (healthinit / 4))
                 {
+                    blood.Play();
                     victim.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health <= 0)
                 {
                     health = 0;
+                    blood.Play();
                     victim.SetTrigger("Hurt");
                     victim.SetBool("isDead", true);
                     DropCollectibles();
@@ -120,12 +131,14 @@ public class EnemyHealth : MonoBehaviour
                 health -= 20f;
                 if (health > 0)
                 {
+                    blood.Play();
                     victim.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health <= 0)
                 {
                     health = 0;
+                    blood.Play();
                     victim.SetTrigger("Hurt");
                     victim.SetBool("isDead", true);
                     DropCollectibles();
@@ -138,6 +151,7 @@ public class EnemyHealth : MonoBehaviour
             if (health > (healthinit / 2) && !isAttacking)
             {
                 health -= 50f;
+                    blood.Play();
                 victim.SetTrigger("Hurt");
             }
 
@@ -147,17 +161,20 @@ public class EnemyHealth : MonoBehaviour
 
                 if (health > 0 && health >= (healthinit / 4))
                 {
+                    blood.Play();
                     victim.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health > 0 && health <= (healthinit / 4))
                 {
+                    blood.Play();
                     victim.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health <= 0)
                 {
                     health = 0;
+                    blood.Play();
                     victim.SetTrigger("Hurt");
                     victim.SetBool("isDead", true);
                     DropCollectibles();
@@ -169,12 +186,14 @@ public class EnemyHealth : MonoBehaviour
                 health -= 50f;
                 if (health > 0)
                 {
+                    blood.Play();
                     victim.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health <= 0)
                 {
                     health = 0;
+                    blood.Play();
                     victim.SetTrigger("Hurt");
                     victim.SetBool("isDead", true);
                     DropCollectibles();

@@ -210,7 +210,7 @@ public class EnemiesBehaviour : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            behaviour = 2;
+            ChangeBehaviour(2);
             jumpTriggered = false;
         }
 

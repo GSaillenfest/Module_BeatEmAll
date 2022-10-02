@@ -20,7 +20,7 @@ public class InstantiateEnemies : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        Debug.Log(Camera.main.ViewportToWorldPoint(new Vector3(-0.2f, Random.Range(0f, 0.5f), 10f)));
     }
 
     public void Spawn()

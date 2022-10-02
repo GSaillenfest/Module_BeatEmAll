@@ -9,7 +9,7 @@ public class AttackController : MonoBehaviour
     [SerializeField] Animator animator;
 
 
-
+   
     public void Launch()
     {
         playerPickUp.ProjectileLaunch();
@@ -38,13 +38,5 @@ public class AttackController : MonoBehaviour
         playerPickUp.objectPickedUp = true;
     }
 
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))// && !collision.gameObject.GetComponent<HealthEnemies>().isAttacking)
-        {
-            collision.gameObject.GetComponent<EnemyHealth>().Hit(playerController.simpleCombo, playerController.superAttack);
-        }
-    }
 
 }
