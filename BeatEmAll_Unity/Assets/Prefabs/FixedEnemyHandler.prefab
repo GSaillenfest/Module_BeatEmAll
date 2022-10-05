@@ -273,8 +273,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3842610717507706143}
   - component: {fileID: 8327693120003673310}
+  - component: {fileID: 951556292}
   m_Layer: 6
-  m_Name: playerdetection
+  m_Name: PlayerDetection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -311,6 +312,19 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.56}
   m_Size: {x: 1.64, y: 0.76}
   m_Direction: 1
+--- !u!114 &951556292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843790742255793932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cd2d9263aaf6d3449efc449e476faa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemiesBehaviour: {fileID: 3551709890770994805}
 --- !u!1 &2348877097468388893
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +357,6 @@ Transform:
   m_Children:
   - {fileID: 3842610717507706143}
   - {fileID: 8307257951069233949}
-  - {fileID: 9091761708850233565}
   m_Father: {fileID: 407779824611184942}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -501,14 +514,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5413891703191479639}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 791154123556973986}
-  m_Father: {fileID: 2399508773225834049}
-  m_RootOrder: 2
+  m_Father: {fileID: 407779824611184942}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &5040643254590173345
 ParticleSystem:
@@ -1454,7 +1467,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 10
+        scalar: 5
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -4345,7 +4358,7 @@ ParticleSystem:
       emitter: {fileID: 9151050575606954297}
       type: 2
       properties: 19
-      emitProbability: 0.5
+      emitProbability: 1
   LightsModule:
     enabled: 0
     ratio: 0
@@ -5381,6 +5394,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2399508773225834049}
+  - {fileID: 9091761708850233565}
   m_Father: {fileID: 198649411791553636}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5456,6 +5470,7 @@ MonoBehaviour:
   healthinit: 50
   victim: {fileID: 1190210039997445468}
   blood: {fileID: 5040643254590173345}
+  player: {fileID: 0}
   isAttacking: 0
   health: 0
 --- !u!114 &5229296132886256547
@@ -5587,7 +5602,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 100
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -6448,7 +6463,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 30
+        scalar: 50
         minScalar: 30
         maxCurve:
           serializedVersion: 2

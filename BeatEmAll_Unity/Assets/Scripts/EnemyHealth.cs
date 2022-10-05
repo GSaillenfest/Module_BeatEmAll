@@ -9,6 +9,7 @@ public class EnemyHealth : MonoBehaviour
     public float healthinit;
     public Animator victim;
     public ParticleSystem blood;
+    [SerializeField] Transform player;
 
     public bool isAttacking;
     bool simpleCombo;
@@ -19,6 +20,8 @@ public class EnemyHealth : MonoBehaviour
 
     {
         health = healthinit;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
     }
 
     // Start is called before the first frame update
@@ -31,6 +34,7 @@ public class EnemyHealth : MonoBehaviour
     void Update()
     {
         isAttacking = victim.GetBool("isAttacking");
+        blood.transform.localScale = new Vector3(player.position.x - transform.position.x, 1f, 1f);
     }
 
 

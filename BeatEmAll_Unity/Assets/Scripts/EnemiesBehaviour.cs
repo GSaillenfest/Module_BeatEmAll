@@ -109,11 +109,11 @@ public class EnemiesBehaviour : MonoBehaviour
         {
             case 0:
                 move = true;
-                Movevement(randomPos);
+                Movement(randomPos);
                 break;
             case 1:
                 move = true;
-                Movevement(player.position);
+                Movement(player.position);
                 break;
             case 2:
                 move = false;
@@ -181,11 +181,11 @@ public class EnemiesBehaviour : MonoBehaviour
         }
     }
 
-    void Movevement(Vector2 destination)
+    void Movement(Vector2 destination)
     {
         if (move && !isJumping)
         {
-            if ((destination - enemiesRb.position).magnitude > 0.2f && (firstPath || moveTimer >= 0))
+            if ((destination - enemiesRb.position).magnitude > 0.05f && (firstPath || moveTimer >= 0))
             {
                 moveTimer -= Time.fixedDeltaTime;
                 transform.parent.Translate((destination - new Vector2(transform.parent.position.x, transform.parent.position.y)).normalized * speed);
@@ -204,21 +204,6 @@ public class EnemiesBehaviour : MonoBehaviour
     void RandomPos()
     {
         randomPos = Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.5f), 10));
-    }
-
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            ChangeBehaviour(2);
-            jumpTriggered = false;
-        }
-
-        if (collision.gameObject.CompareTag("Projectiles"))
-        {
-            Debug.Log("isHurt");
-            gameObject.GetComponent<EnemyHealth>().Hit(false, false);
-        }
     }
 
     public void ChangeBehaviour(int min, int max = -1)

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    
-   
+
+    [SerializeField] Animator animator;
     
 
     public bool isAttacking;
@@ -27,8 +27,8 @@ public class PlayerHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isAttacking = gameObject.GetComponent<Animator>().GetBool("isAttacking");
-        isHurt = gameObject.GetComponent<Animator>().GetBool("isHurt");
+        isAttacking = animator.GetBool("isAttacking");
+        isHurt = animator.GetBool("isHurt");
     }
 
 
@@ -38,14 +38,14 @@ public class PlayerHealth : MonoBehaviour
         if (health > 0 && !isAttacking)
         {
             health -= 7.5f;
-            gameObject.GetComponent<Animator>().SetTrigger("Hurt");
+            animator.SetTrigger("Hurt");
         }
 
         else if (health <= 0)
         {
             health = 0;
-            gameObject.GetComponent<Animator>().SetTrigger("Hurt");
-            gameObject.GetComponent<Animator>().SetBool("Dead", true);
+            animator.SetTrigger("Hurt");
+            animator.SetBool("Dead", true);
 
         }
             
