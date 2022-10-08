@@ -64,7 +64,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        animator.SetBool("ComboAttack", Input.GetButtonDown("Fire1") && isJumping && direction.magnitude == 0 && !simpleCombo);
+        if (Input.GetButtonDown("Fire1") && isJumping && direction.magnitude == 0 && !simpleCombo)
+        {
+            animator.SetTrigger("ComboAttack");
+        }
     }
 
     private void MovementInputs()
@@ -93,7 +96,10 @@ public class PlayerController : MonoBehaviour
             default:
                 break;
         }
-        direction = new Vector2(horizontalInput, verticalInput).normalized;
+        if (!simpleCombo)
+        {
+            direction = new Vector2(horizontalInput, verticalInput).normalized;
+        }
 
         if (direction.magnitude > 0) isWalking = true;
         else isWalking = false;
@@ -101,6 +107,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isWalking", isWalking);
 
         if (Input.GetButtonDown("Jump") && !isJumping) doJump = true;
+
     }
 
     private void FlipSprite()

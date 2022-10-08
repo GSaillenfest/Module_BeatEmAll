@@ -9,10 +9,18 @@ public class FistsColliderScript : MonoBehaviour
     [SerializeField] Animator fistsAnimator;
     [SerializeField] Transform player;
 
+    public bool simpleCombo;
+
     private void Update()
     {
         transform.position = player.position;
         fistsAnimator.SetBool("isAttacking", animator.GetBool("isAttacking"));
+        if (!animator.GetBool("simpleCombo")) simpleCombo = false;
+        if (animator.GetBool("simpleCombo") && !playerController.isJumping && !simpleCombo)
+        {
+            
+            fistsAnimator.SetTrigger("ComboAttackCollider");
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
