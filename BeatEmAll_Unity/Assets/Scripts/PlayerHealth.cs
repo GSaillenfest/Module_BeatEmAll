@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -11,11 +12,13 @@ public class PlayerHealth : MonoBehaviour
     public bool isAttacking;
     public float health =100;
     bool isHurt = false;
+    public Image playerHealthBar;
+    float maxHealth ;
 
     private void Awake()
 
     {
-      
+        maxHealth = health;
     }
 
     // Start is called before the first frame update
@@ -29,6 +32,8 @@ public class PlayerHealth : MonoBehaviour
     {
         isAttacking = animator.GetBool("isAttacking");
         isHurt = animator.GetBool("isHurt");
+        playerHealthBar.fillAmount = Mathf.Clamp(health / maxHealth, 0, 1f);
+
     }
 
 
@@ -48,7 +53,8 @@ public class PlayerHealth : MonoBehaviour
             animator.SetBool("Dead", true);
 
         }
-            
+        
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -57,6 +63,7 @@ public class PlayerHealth : MonoBehaviour
             if (!isHurt) Hit();
             GetComponentInChildren<PlayerPickUp>().DropProjectile();
         }
+
     }
 
 }
