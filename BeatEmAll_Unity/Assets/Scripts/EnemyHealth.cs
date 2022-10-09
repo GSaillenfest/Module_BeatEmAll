@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class EnemyHealth : MonoBehaviour
     public Animator victim;
     public ParticleSystem blood;
     [SerializeField] Transform player;
+    public Image enemyHealthBar;
 
     public bool isAttacking;
     bool simpleCombo;
@@ -35,6 +37,7 @@ public class EnemyHealth : MonoBehaviour
     {
         isAttacking = victim.GetBool("isAttacking");
         blood.transform.localScale = new Vector3(player.position.x - transform.position.x, 1f, 1f);
+        enemyHealthBar.fillAmount = Mathf.Clamp(health / healthinit, 0, 1f);
     }
 
 
