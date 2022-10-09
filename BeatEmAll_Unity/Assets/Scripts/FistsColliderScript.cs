@@ -8,6 +8,7 @@ public class FistsColliderScript : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] Animator fistsAnimator;
     [SerializeField] Transform player;
+    [SerializeField] CameraFeedback cameraFb;
 
     public bool simpleCombo;
 
@@ -28,6 +29,7 @@ public class FistsColliderScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))// && !collision.gameObject.GetComponent<HealthEnemies>().isAttacking)
         {
             collision.gameObject.GetComponent<EnemyHealth>().Hit(playerController.simpleCombo, playerController.superAttack);
+            cameraFb.ShakeCamera();
         }
     }
 }

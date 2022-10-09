@@ -24,13 +24,14 @@ public class EnemyGroundCollider : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-            Debug.Log("Ground ?");
+            Debug.Log("Ground ? " + collision.gameObject.name);
 
         if (collision.transform.parent.Equals(transform.parent.parent))
         {
+            Debug.Log("ok");
+            animator.SetBool("isJumping", false);
             enemyRb.gravityScale = 0f;
             enemyRb.velocity = new Vector2(enemyRb.velocity.x, 0f);
-            animator.SetBool("isJumping", false);
         }
     }
 
