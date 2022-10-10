@@ -7,18 +7,24 @@ public class PlayerHealth : MonoBehaviour
 {
 
     [SerializeField] Animator animator;
-    
+
 
     public bool isAttacking;
-    public float health =100;
+    public float health = 100;
     bool isHurt = false;
     public Image playerHealthBar;
-    float maxHealth ;
+    public GameObject healthBar;
+
+    float maxHealth;
+    float timer = 0;
+
+
 
     private void Awake()
 
     {
         maxHealth = health;
+
     }
 
     // Start is called before the first frame update
@@ -34,7 +40,21 @@ public class PlayerHealth : MonoBehaviour
         isHurt = animator.GetBool("isHurt");
         playerHealthBar.fillAmount = Mathf.Clamp(health / maxHealth, 0, 1f);
 
+        if (timer <= 4)
+        {
+            timer += Time.deltaTime;
+            if (isHurt)
+            {
+                timer = 0;
+                healthBar.SetActive(true);
+            }
+        } else if (timer > 4)
+        {
+            healthBar.SetActive(false);
+            timer = 0;
+        }
     }
+
 
 
     public void Hit()

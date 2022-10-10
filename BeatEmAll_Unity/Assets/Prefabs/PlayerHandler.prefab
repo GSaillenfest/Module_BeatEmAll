@@ -181,7 +181,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8341493972529534876
 RectTransform:
   m_ObjectHideFlags: 0
@@ -598,7 +598,8 @@ MonoBehaviour:
   animator: {fileID: 0}
   isAttacking: 0
   health: 10000
-  playerHealthBar: {fileID: 0}
+  playerHealthBar: {fileID: 1887797760582152593}
+  healthBar: {fileID: 4703282387164303558}
 --- !u!1 &8791578881206333663
 GameObject:
   m_ObjectHideFlags: 0
