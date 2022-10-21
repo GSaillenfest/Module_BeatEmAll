@@ -7,4 +7,4 @@ Niveau : scrolling horizontal, condition de victoire, nombre de vies.
 
 UI à intégrer : barre de santé, score, temps.
 
-![BeatThemUp (2)](https://user-images.githubusercontent.com/104986291/197148067-a5c8a024-b09a-4372-a40f-887163ed7cc9.jpg)
+![BeatThemUp](https://user-images.githubusercontent.com/104986291/197148896-94a2cab2-c02b-4e41-928f-101bcac97fe8.gif)
