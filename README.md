@@ -1,6 +1,8 @@
 # Module_BeatEmUp
 Module n°8 _ travail en collaboration
 
-Niveau non fini.
+TODO :
+Niveau : scrolling horizontal, condition de victoire, nombre de vies. 
+UI à intégrer : barre de santé, score, temps.
 
-![BeatThemUp](https://user-images.githubusercontent.com/104986291/197147707-a4862341-923d-4559-bc93-adcfe9748b1c.gif)
+![BeatThemUp (2)](https://user-images.githubusercontent.com/104986291/197148067-a5c8a024-b09a-4372-a40f-887163ed7cc9.jpg)
