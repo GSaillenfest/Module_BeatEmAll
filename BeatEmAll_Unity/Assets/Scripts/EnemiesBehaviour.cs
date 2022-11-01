@@ -28,6 +28,7 @@ public class EnemiesBehaviour : MonoBehaviour
     float drag;
     bool firstPath = true;
     bool isDead;
+    private float yPosBeforeJump;
 
     private void Awake()
     {
@@ -163,6 +164,7 @@ public class EnemiesBehaviour : MonoBehaviour
     {
         if (!isAttacking && !jumpTriggered)
         {
+            yPosBeforeJump = transform.position.y; 
             animator.SetTrigger("Jump");
             animator.SetBool("isJumping", true);
             enemiesRb.AddRelativeForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
@@ -222,20 +224,19 @@ public class EnemiesBehaviour : MonoBehaviour
         }
     }
 
-    //void Jumping()
-    //{
-    //    if (isJumping)
-    //    Debug.Log(transform.position.y + "   " + yPosBeforeJump);
-    //    {
-    //        if (transform.position.y < yPosBeforeJump)
-    //        {
-    //            enemiesRb.gravityScale = 0f;
-    //            enemiesRb.velocity = new Vector2(enemiesRb.velocity.x, 0);
-    //            transform.position = new Vector2(transform.position.x, yPosBeforeJump);
-    //            animator.SetBool("isJumping", false);
-    //        }
-    //    }
-    //}
+    void Jumping()
+    {
+        if (isJumping)
+            Debug.Log(transform.position.y + "   " + yPosBeforeJump);
+        {
+            if (transform.position.y < yPosBeforeJump)
+            {
+                enemiesRb.gravityScale = 0f;
+                enemiesRb.velocity = new Vector2(enemiesRb.velocity.x, 0);
+                animator.SetBool("isJumping", false);
+            }
+        }
+    }
 
 
 }

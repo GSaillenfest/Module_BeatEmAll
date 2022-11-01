@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class EnemyHealth : MonoBehaviour
     //public GameObject record;
     //public GameObject tape;
     public float healthinit;
-    public Animator victim;
+    public Animator enemyAnimator;
     public ParticleSystem blood;
     [SerializeField] Transform player;
     public Image enemyHealthBar;
@@ -17,6 +18,7 @@ public class EnemyHealth : MonoBehaviour
     bool simpleCombo;
     bool superAttack;
     public float health;
+    float pauseTimer;
 
     private void Awake()
 
@@ -35,21 +37,25 @@ public class EnemyHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isAttacking = victim.GetBool("isAttacking");
+        isAttacking = enemyAnimator.GetBool("isAttacking");
         blood.transform.localScale = new Vector3(player.position.x - transform.position.x, 1f, 1f);
         enemyHealthBar.fillAmount = Mathf.Clamp(health / healthinit, 0, 1f);
+        pauseTimer += Time.unscaledDeltaTime;
+        if (pauseTimer > 0.5f) PauseAnimation(false);
     }
 
 
     public void Hit(bool simpleCombo, bool superAttack)
     {
+
         if (!simpleCombo && !superAttack)
         {
             if (health > (healthinit / 2) && !isAttacking)
             {
                 blood.Play();
                 health -= 7.5f;
-                victim.SetTrigger("Hurt");
+                enemyAnimator.SetTrigger("Hurt");
+                PauseAnimation(true);
             }
 
             else if (health <= (healthinit / 2) && health > (healthinit / 6) && !isAttacking)
@@ -59,20 +65,22 @@ public class EnemyHealth : MonoBehaviour
                 if (health > 0 && health >= (healthinit / 4))
                 {
                     blood.Play();
-                    victim.SetTrigger("Hurt");
-
+                    enemyAnimator.SetTrigger("Hurt");
+                PauseAnimation(true);
                 }
                 else if (health > 0 && health <= (healthinit / 4))
                 {
-                blood.Play();
-                    victim.SetTrigger("Hurt");
+                    blood.Play();
+                    enemyAnimator.SetTrigger("Hurt");
+                PauseAnimation(true);
                     DropCollectibles();
                 }
                 else if (health <= 0)
                 {
                     blood.Play();
                     health = 0;
-                    victim.SetBool("isDead", true);
+                    enemyAnimator.SetBool("isDead", true);
+                PauseAnimation(true);
                     DropCollectibles();
                 }
 
@@ -83,15 +91,17 @@ public class EnemyHealth : MonoBehaviour
                 if (health > 0)
                 {
                     blood.Play();
-                    victim.SetTrigger("Hurt");
+                    enemyAnimator.SetTrigger("Hurt");
+                PauseAnimation(true);
                     DropCollectibles();
                 }
                 else if (health <= 0)
                 {
                     health = 0;
                     blood.Play();
-                    victim.SetTrigger("Hurt");
-                    victim.SetBool("isDead", true);
+                    enemyAnimator.SetTrigger("Hurt");
+                PauseAnimation(true);
+                    enemyAnimator.SetBool("isDead", true);
                     DropCollectibles();
                 }
             }
@@ -103,8 +113,8 @@ public class EnemyHealth : MonoBehaviour
             if (health > (healthinit / 2) && !isAttacking)
             {
                 health -= 20f;
-                    blood.Play();
-                victim.SetTrigger("Hurt");
+                blood.Play();
+                enemyAnimator.SetTrigger("Hurt");
             }
 
             else if (health <= (healthinit / 2) && health > (healthinit / 6) && !isAttacking)
@@ -114,21 +124,21 @@ public class EnemyHealth : MonoBehaviour
                 if (health > 0 && health >= (healthinit / 4))
                 {
                     blood.Play();
-                    victim.SetTrigger("Hurt");
+                    enemyAnimator.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health > 0 && health <= (healthinit / 4))
                 {
                     blood.Play();
-                    victim.SetTrigger("Hurt");
+                    enemyAnimator.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health <= 0)
                 {
                     health = 0;
                     blood.Play();
-                    victim.SetTrigger("Hurt");
-                    victim.SetBool("isDead", true);
+                    enemyAnimator.SetTrigger("Hurt");
+                    enemyAnimator.SetBool("isDead", true);
                     DropCollectibles();
                 }
 
@@ -139,15 +149,15 @@ public class EnemyHealth : MonoBehaviour
                 if (health > 0)
                 {
                     blood.Play();
-                    victim.SetTrigger("Hurt");
+                    enemyAnimator.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health <= 0)
                 {
                     health = 0;
                     blood.Play();
-                    victim.SetTrigger("Hurt");
-                    victim.SetBool("isDead", true);
+                    enemyAnimator.SetTrigger("Hurt");
+                    enemyAnimator.SetBool("isDead", true);
                     DropCollectibles();
                 }
             }
@@ -158,8 +168,8 @@ public class EnemyHealth : MonoBehaviour
             if (health > (healthinit / 2) && !isAttacking)
             {
                 health -= 50f;
-                    blood.Play();
-                victim.SetTrigger("Hurt");
+                blood.Play();
+                enemyAnimator.SetTrigger("Hurt");
             }
 
             else if (health <= (healthinit / 2) && health > (healthinit / 6) && !isAttacking)
@@ -169,21 +179,21 @@ public class EnemyHealth : MonoBehaviour
                 if (health > 0 && health >= (healthinit / 4))
                 {
                     blood.Play();
-                    victim.SetTrigger("Hurt");
+                    enemyAnimator.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health > 0 && health <= (healthinit / 4))
                 {
                     blood.Play();
-                    victim.SetTrigger("Hurt");
+                    enemyAnimator.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health <= 0)
                 {
                     health = 0;
                     blood.Play();
-                    victim.SetTrigger("Hurt");
-                    victim.SetBool("isDead", true);
+                    enemyAnimator.SetTrigger("Hurt");
+                    enemyAnimator.SetBool("isDead", true);
                     DropCollectibles();
                 }
 
@@ -194,15 +204,15 @@ public class EnemyHealth : MonoBehaviour
                 if (health > 0)
                 {
                     blood.Play();
-                    victim.SetTrigger("Hurt");
+                    enemyAnimator.SetTrigger("Hurt");
                     DropCollectibles();
                 }
                 else if (health <= 0)
                 {
                     health = 0;
                     blood.Play();
-                    victim.SetTrigger("Hurt");
-                    victim.SetBool("isDead", true);
+                    enemyAnimator.SetTrigger("Hurt");
+                    enemyAnimator.SetBool("isDead", true);
                     DropCollectibles();
                 }
 
@@ -210,6 +220,19 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
+    private void PauseAnimation(bool isPause)
+    {
+        if (isPause)
+        {
+            enemyAnimator.speed = 0.1f;
+            pauseTimer = 0;
+            Debug.Log("TimePaused");
+        }
+        else
+        {
+            enemyAnimator.speed = 1;
+        }
+    }
 
     public void DropCollectibles()
     {
